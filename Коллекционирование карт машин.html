@@ -545,19 +545,21 @@
         .achievements-window {
             background: #f7f0e2;
             border-radius: 48px;
-            padding: 30px;
-            max-width: 600px;
+            padding: 20px;
+            max-width: 550px;
             width: 100%;
+            max-height: 70vh;
+            overflow-y: auto;
         }
 
         .achievement-item {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 12px;
-            margin: 8px 0;
+            gap: 12px;
+            padding: 10px;
+            margin: 6px 0;
             background: white;
-            border-radius: 30px;
+            border-radius: 25px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
@@ -567,8 +569,8 @@
         }
 
         .achievement-icon {
-            font-size: 2rem;
-            width: 50px;
+            font-size: 1.6rem;
+            width: 45px;
             text-align: center;
         }
 
@@ -578,11 +580,11 @@
 
         .achievement-title {
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .achievement-desc {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #666;
         }
 
@@ -842,23 +844,10 @@
 <script>
     const SAVE_KEY = 'car_collection_game_slots_v12';
 
-    // ВЕТКИ И МОДЕЛИ
     const BRANCHES = {
-        "Классические ВАЗ": {
-            img: "classic.png",
-            icon: "🚗",
-            models: ["vaz2101", "vaz2102", "vaz2103", "vaz2104", "vaz2105", "vaz2106", "vaz2107"]
-        },
-        "ВАЗ Самара": {
-            img: "samara.png",
-            icon: "🚙",
-            models: ["vaz2108", "vaz2109", "vaz21099", "vaz2113", "vaz2114", "vaz2115"]
-        },
-        "ВАЗ 110": {
-            img: "vaz110.png",
-            icon: "🚘",
-            models: ["vaz2110", "vaz2111", "vaz2112"]
-        }
+        "Классические ВАЗ": { img: "classic.png", icon: "🚗", models: ["vaz2101", "vaz2102", "vaz2103", "vaz2104", "vaz2105", "vaz2106", "vaz2107"] },
+        "ВАЗ Самара": { img: "samara.png", icon: "🚙", models: ["vaz2108", "vaz2109", "vaz21099", "vaz2113", "vaz2114", "vaz2115"] },
+        "ВАЗ 110": { img: "vaz110.png", icon: "🚘", models: ["vaz2110", "vaz2111", "vaz2112"] }
     };
 
     const FULL_CARD_INFO = {
@@ -938,8 +927,8 @@
         overlay.className = 'modal-overlay';
         
         let html = `<div class="achievements-window">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h2 style="margin:0;">🏆 ДОСТИЖЕНИЯ</h2>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h2 style="margin:0; font-size:1.4rem;">🏆 ДОСТИЖЕНИЯ</h2>
                 <button id="closeAchievementsBtn" style="background:#c97e2a; border:none; padding:5px 15px; border-radius:30px; cursor:pointer;">✖</button>
             </div>`;
         
@@ -956,7 +945,7 @@
             `;
         }
         
-        html += `<button class="modal-close" style="margin-top:20px;">Закрыть</button></div>`;
+        html += `<button class="modal-close" style="margin-top:15px;">Закрыть</button></div>`;
         overlay.innerHTML = html;
         document.body.appendChild(overlay);
         
@@ -973,7 +962,6 @@
         let goldModels = 0;
         let diamondModels = 0;
         
-        // Для веток
         let branchClassicCount = 0;
         let branchSamaraCount = 0;
         let branch110Count = 0;
@@ -995,7 +983,6 @@
             if (gold > 0) goldModels++;
             if (diamond > 0) diamondModels++;
             
-            // Проверка веток
             const branch = CARDS_DATA[model]?.branch;
             if (hasAny) {
                 if (branch === "Классические ВАЗ") branchClassicCount++;
@@ -1847,7 +1834,6 @@
         overlay.querySelector('#closeBtn').onclick = () => { overlay.remove(); currentBrandsOverlay = null; };
     }
 
-    // ВЕТКИ
     function showBranchesList() {
         const overlay = document.createElement('div'); overlay.className = 'modal-overlay';
         let html = `<div class="modal-window"><div style="display:flex; justify-content:space-between; margin-bottom:20px;"><h2>🌿 ВЫБЕРИТЕ ВЕТКУ</h2><button id="closeBtn" style="background:#c97e2a; border:none; padding:5px 15px; border-radius:30px; cursor:pointer;">✖</button></div><div class="branches-list">`;
