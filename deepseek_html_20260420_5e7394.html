@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>ККИ: Полная коллекция ВАЗ — 13 моделей</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(145deg, #1a3a2a 0%, #0e2418 100%);
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .game-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 56px;
+            backdrop-filter: blur(3px);
+            padding: 22px;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.5);
+        }
+
+        .slot-select-screen {
+            background: #f7f0e2e6;
+            border-radius: 56px;
+            padding: 40px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .slot-select-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2a241a;
+            margin-bottom: 20px;
+        }
+
+        .slots-select-grid {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .slot-select-card {
+            background: white;
+            border-radius: 32px;
+            width: 180px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.1s;
+            border: 3px solid #bc874a;
+        }
+
+        .slot-select-card.selected {
+            border-color: #f39c12;
+            background: #fff8e7;
+            box-shadow: 0 0 0 3px #ffdd99;
+        }
+
+        .slot-select-card:hover {
+            transform: scale(1.02);
+        }
+
+        .slot-select-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .slot-select-info {
+            font-size: 0.75rem;
+            color: #4e3a28;
+            margin-top: 8px;
+        }
+
+        .slot-select-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .small-btn {
+            background: #7f8c8d;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+
+        .mode-select-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0 20px;
+        }
+
+        .mode-select-btn {
+            background: #c97e2a;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 15px 25px;
+            border-radius: 60px;
+            cursor: pointer;
+            color: white;
+            transition: 0.1s;
+            box-shadow: 0 5px 0 #7a4f18;
+        }
+
+        .mode-select-btn.test {
+            background: #8e44ad;
+            box-shadow: 0 5px 0 #6c3483;
+        }
+
+        .mode-select-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #7a4f18;
+        }
+
+        .slot-select-desc {
+            color: #4a3a28;
+            font-size: 1rem;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: #1f1c16cc;
+            backdrop-filter: blur(12px);
+            padding: 10px 28px;
+            border-radius: 60px;
+            margin-bottom: 28px;
+            color: #fff0d4;
+        }
+
+        .money-panel {
+            background: #000000aa;
+            padding: 6px 24px;
+            border-radius: 40px;
+            font-size: 1.9rem;
+            font-weight: bold;
+            font-family: monospace;
+            letter-spacing: 2px;
+            color: #f5c542;
+        }
+
+        .money-panel.infinity {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: #fff;
+            text-shadow: 0 0 5px gold;
+        }
+
+        .money-panel.test {
+            background: linear-gradient(135deg, #8e44ad, #6c3483);
+            color: #fff;
+            text-shadow: 0 0 5px #d2b4de;
+        }
+
+        .brand-btn, .work-btn, .test-btn, .battle-btn, .achievements-btn {
+            background: #2c3e66;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            color: white;
+            box-shadow: 0 3px 0 #1a2a44;
+        }
+
+        .work-btn {
+            background: #e67e22;
+            box-shadow: 0 3px 0 #b45d1b;
+        }
+
+        .test-btn {
+            background: #8e44ad;
+            box-shadow: 0 3px 0 #6c3483;
+        }
+
+        .battle-btn {
+            background: #c0392b;
+            box-shadow: 0 3px 0 #7a2a1f;
+        }
+
+        .achievements-btn {
+            background: #27ae60;
+            box-shadow: 0 3px 0 #1b7943;
+        }
+
+        .slots-panel {
+            background: #2c241ae0;
+            border-radius: 40px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #ffefcf;
+        }
+
+        .slots-grid {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .slot-card {
+            background: #1e1b16;
+            border-radius: 28px;
+            flex: 1;
+            min-width: 130px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid #bc874a;
+            transition: 0.08s linear;
+        }
+
+        .slot-card.active-slot {
+            background: #3d2e1f;
+            border: 3px solid #f3b33d;
+            box-shadow: 0 0 0 2px #ffdd99;
+        }
+
+        .slot-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .slot-info {
+            font-size: 0.7rem;
+            margin-top: 5px;
+            background: #00000066;
+            border-radius: 20px;
+            padding: 4px;
+        }
+
+        .slot-buttons {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
+            justify-content: center;
+        }
+
+        .slot-small-btn {
+            background: #5a3a22;
+            border: none;
+            border-radius: 30px;
+            padding: 3px 8px;
+            color: white;
+            font-size: 0.65rem;
+            cursor: pointer;
+        }
+
+        .section {
+            background: #f7f0e2e6;
+            border-radius: 48px;
+            padding: 24px;
+            box-shadow: inset 0 0 0 2px #fffae8, 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .section-title {
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin: 0 0 20px 0;
+            border-left: 12px solid #c0392b;
+            padding-left: 22px;
+            color: #2a241a;
+        }
+
+        .cards-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            justify-content: center;
+        }
+
+        .card {
+            background: #fffaf0;
+            width: 280px;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+            border: 1px solid #e7c99e;
+            transition: 0.1s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card-common { border-top: 12px solid #9aa0a8; }
+        .card-rare { border-top: 12px solid #2e86c1; }
+        .card-legendary { border-top: 12px solid #f39c12; }
+        .card-gold { border-top: 12px solid #f7b731; background: linear-gradient(135deg, #fff8e7, #ffe4a0); box-shadow: 0 0 15px rgba(255,215,0,0.5); }
+        .card-diamond { border-top: 12px solid #5dade2; background: linear-gradient(135deg, #e8f4fd, #b8dcf8); box-shadow: 0 0 15px rgba(52,152,219,0.5); }
+
+        .card-img {
+            background: #2b281f;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: radial-gradient(circle at 30% 25%, #4a5e38, #1a2a10);
+        }
+
+        .card-img img {
+            max-width: 90%;
+            max-height: 130px;
+            object-fit: contain;
+            filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.6));
+        }
+
+        .card-info {
+            padding: 14px 16px;
+        }
+
+        .card-name {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .brand-tag {
+            display: inline-block;
+            background: #2c3e66;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            margin-top: 5px;
+        }
+
+        .rarity-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+
+        .card-rarity {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .upgrade-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .rarity-common { background: #7f8c8d; color: white; }
+        .rarity-rare { background: #2e86c1; color: white; }
+        .rarity-legendary { background: #f39c12; color: #2c2c2c; }
+        .upgrade-gold { background: #f39c12; color: #2c2c2c; box-shadow: 0 0 5px gold; }
+        .upgrade-diamond { background: #3498db; color: white; box-shadow: 0 0 5px #5dade2; }
+
+        .card-desc {
+            font-size: 0.75rem;
+            color: #4e3a28;
+            margin: 8px 0;
+        }
+
+        .card-actions {
+            padding: 12px 16px 16px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            flex: 1;
+            border: none;
+            padding: 8px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.05s linear;
+        }
+
+        .btn-sell {
+            background: #e67e22;
+            color: white;
+            box-shadow: 0 2px 0 #b45d1b;
+        }
+
+        .btn-sell:active { transform: translateY(2px); }
+
+        .btn-battle {
+            background: #c0392b;
+            color: white;
+            box-shadow: 0 2px 0 #7a2a1f;
+        }
+
+        .card-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 40px;
+        }
+
+        .card-modal-content {
+            background: #f7f0e2;
+            border-radius: 48px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .craft-modal-content {
+            background: #f7f0e2;
+            border-radius: 48px;
+            max-width: 450px;
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .info-modal-content {
+            background: #f7f0e2;
+            border-radius: 48px;
+            max-width: 400px;
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .modal-close {
+            background: #c97e2a;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .minigame-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+
+        .minigame-window {
+            background: #2c241a;
+            border-radius: 48px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+            width: 450px;
+            max-width: 90%;
+        }
+
+        .pizza-click-area {
+            background: #d35400;
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.05s linear;
+            font-size: 5rem;
+            box-shadow: 0 10px 0 #873600;
+        }
+
+        .pizza-click-area:active {
+            transform: translateY(5px);
+            box-shadow: 0 5px 0 #873600;
+        }
+
+        .timer-bar {
+            height: 20px;
+            background: #e67e22;
+            border-radius: 10px;
+            transition: width 0.05s linear;
+            margin: 15px 0;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal-window {
+            background: #f7f0e2;
+            border-radius: 48px;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .achievements-window {
+            background: #f7f0e2;
+            border-radius: 48px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .achievement-item.locked {
+            opacity: 0.5;
+            filter: grayscale(0.3);
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            width: 50px;
+            text-align: center;
+        }
+
+        .achievement-info {
+            flex: 1;
+        }
+
+        .achievement-title {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .achievement-desc {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .brands-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .brand-item {
+            background: white;
+            border-radius: 32px;
+            width: 200px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .brand-item:hover {
+            transform: scale(1.02);
+        }
+
+        .brand-item img {
+            max-width: 120px;
+            margin-bottom: 10px;
+        }
+
+        .brand-cars-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .brand-car-card {
+            background: white;
+            border-radius: 24px;
+            width: 300px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .brand-car-card:hover {
+            transform: scale(1.02);
+        }
+
+        .brand-car-card.locked { 
+            opacity: 0.6; 
+            filter: grayscale(0.3); 
+            cursor: pointer; 
+        }
+        .brand-car-card.locked:hover { 
+            transform: scale(1.02);
+            opacity: 0.8;
+        }
+
+        .brand-car-img {
+            background: #2b281f;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-car-img img {
+            max-width: 90%;
+            max-height: 110px;
+        }
+
+        .brand-car-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .brand-car-card.gold-card {
+            background: linear-gradient(135deg, #fff8e7, #ffe4a0);
+            border: 2px solid #f39c12;
+        }
+
+        .brand-car-card.diamond-card {
+            background: linear-gradient(135deg, #e8f4fd, #b8dcf8);
+            border: 2px solid #3498db;
+        }
+
+        .brand-rarity-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 8px;
+        }
+
+        .craft-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .craft-btn-small {
+            background: #27ae60;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+        }
+
+        .craft-btn-small:disabled {
+            background: #7f8c8d;
+            cursor: not-allowed;
+        }
+
+        .test-panel {
+            background: #8e44ad33;
+            border-radius: 40px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #9b59b6;
+        }
+
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .test-select {
+            background: #2c241a;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 40px;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .achievement-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: #2c2c2c;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            z-index: 4000;
+            animation: slideIn 0.5s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            font-size: 1rem;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <div id="slotSelectScreen" class="slot-select-screen">
+        <div class="slot-select-title">🚗 КОЛЛЕКЦИОННАЯ КАРТОЧНАЯ ИГРА 🚗</div>
+        <div class="slots-select-grid" id="slotsSelectGrid"></div>
+        <div class="mode-select-buttons">
+            <button id="playAllBtn" class="mode-select-btn">📚 ВСЕ КАРТЫ</button>
+            <button id="playCollectionBtn" class="mode-select-btn">🎴 КОЛЛЕКЦИЯ</button>
+            <button id="playInfiniteBtn" class="mode-select-btn">♾️ БЕСКОНЕЧНЫЕ ДЕНЬГИ</button>
+            <button id="playTestBtn" class="mode-select-btn test">🧪 ТЕСТОВЫЙ РЕЖИМ</button>
+        </div>
+        <div class="slot-select-desc">
+            💾 Выберите слот (1-5), затем режим игры.<br>
+            🖱️ Клик по слоту — выбрать, кнопки — очистить или перезаписать.<br>
+            🧪 Тестовый режим: бесконечные деньги, выдача карт, крафт без ограничений!
+        </div>
+    </div>
+
+    <div id="gameInterface" class="hidden">
+        <div class="game-header">
+            <div class="money-panel" id="moneyDisplay">💰 $500</div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="brand-btn" id="brandsBtn">🏭 МАРКИ</button>
+                <button class="work-btn" id="deliveryBtn">🍕 ДОСТАВКА</button>
+                <button class="battle-btn" id="battleBtn">⚔️ БИТВА</button>
+                <button class="achievements-btn" id="achievementsBtn">🏆 ДОСТИЖЕНИЯ</button>
+                <button class="test-btn" id="testMenuBtn" style="display: none;">🧪 ТЕСТОВОЕ МЕНЮ</button>
+            </div>
+        </div>
+
+        <div class="slots-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <strong>💾 СЛОТЫ СОХРАНЕНИЯ</strong>
+                <small>нажмите на слот для загрузки</small>
+            </div>
+            <div class="slots-grid" id="slotsContainer"></div>
+        </div>
+
+        <div id="testPanel" class="test-panel hidden">
+            <h3 style="margin: 0 0 10px 0; color: #d2b4de;">🧪 ТЕСТОВЫЙ РЕЖИМ</h3>
+            <div class="test-buttons">
+                <select id="testCarSelect" class="test-select">
+                    <option value="vaz2101">ВАЗ-2101 (Легендарная)</option>
+                    <option value="vaz2102">ВАЗ-2102 (Редкая)</option>
+                    <option value="vaz2103">ВАЗ-2103 (Редкая)</option>
+                    <option value="vaz2104">ВАЗ-2104 (Редкая)</option>
+                    <option value="vaz2105">ВАЗ-2105 (Редкая)</option>
+                    <option value="vaz2106">ВАЗ-2106 (Обычная)</option>
+                    <option value="vaz2107">ВАЗ-2107 (Обычная)</option>
+                    <option value="vaz2108">ВАЗ-2108 (Обычная)</option>
+                    <option value="vaz2109">ВАЗ-2109 (Обычная)</option>
+                    <option value="vaz21099">ВАЗ-21099 (Обычная)</option>
+                    <option value="vaz2113">ВАЗ-2113 (Обычная)</option>
+                    <option value="vaz2114">ВАЗ-2114 (Обычная)</option>
+                    <option value="vaz2115">ВАЗ-2115 (Обычная)</option>
+                </select>
+                <select id="testRaritySelect" class="test-select">
+                    <option value="common">Обычная</option>
+                    <option value="gold">Золотая</option>
+                    <option value="diamond">Алмазная</option>
+                </select>
+                <button id="testAddCardBtn" class="test-btn">➕ Выдать карту</button>
+                <button id="testCraftGoldBtn" class="test-btn">✨ Крафт золотой (без траты)</button>
+                <button id="testCraftDiamondBtn" class="test-btn">💎 Крафт алмазной (без траты)</button>
+            </div>
+            <p style="font-size: 0.7rem; margin-top: 8px;">💡 В тестовом режиме можно выдавать любые карты и крафтить без ограничений!</p>
+        </div>
+
+        <div id="allCardsSection" class="section hidden">
+            <h2 class="section-title">🚘 Все доступные автомобили</h2>
+            <div id="allCardsGrid" class="cards-grid"></div>
+        </div>
+
+        <div id="collectionSection" class="section hidden">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button id="openPackBtn" class="btn" style="background:#c97e2a; padding:12px 30px; font-size:1.2rem;">🎴 Купить карту ($100)</button>
+            </div>
+            <h2 class="section-title">📦 Моя коллекция</h2>
+            <div id="collectionCardsGrid" class="cards-grid"></div>
+            <div class="craft-panel" style="background:#2c241ae0; border-radius:40px; padding:20px; margin-top:25px; color:#ffefcf; text-align:center;">
+                <p>🔧 Для крафта зайдите в раздел <strong>«МАРКИ»</strong> → выберите марку → <strong>ЛЕВОЙ КНОПКОЙ МЫШИ</strong> нажмите на машину для крафта, <strong>ПРАВОЙ</strong> для информации!</p>
+                <p>✨ 10 обычных → 1 золотая | 5 золотых → 1 алмазная</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const SAVE_KEY = 'car_collection_game_slots_v10';
+
+    const RARITY_SCORES = { "Обычная": 1, "Редкая": 2, "Легендарная": 3 };
+
+    const FULL_CARD_INFO = {
+        vaz2101: {
+            name: "ВАЗ-2101", years: "1970–1983", class: "Седан", type: "Легковая", rarity: "Легендарная",
+            description: "ВАЗ-2101 «Жигули» — советский заднеприводный легковой автомобиль малого класса с кузовом типа седан. Первая модель, выпущенная Волжским автомобильным заводом. Прототипом стал Fiat 124. В народе получила прозвище «копейка». Серийное производство началось в 1970 году. В 2000 году назван лучшим отечеспособным автомобилем XX века.",
+            imgFile: "ваз2101.png"
+        },
+        vaz2102: {
+            name: "ВАЗ-2102", years: "1971–1986", class: "Универсал", type: "Легковая", rarity: "Редкая",
+            description: "ВАЗ-2102 — советский заднеприводный автомобиль с кузовом типа «универсал». В народе назывался «двойкой» или «двушкой». Разработан на базе ВАЗ-2101. Серийно выпускался на Волжском автомобильном заводе с 21 сентября 1971 по 1986 год.",
+            imgFile: "ваз2102.png"
+        },
+        vaz2103: {
+            name: "ВАЗ-2103", years: "1972–1984", class: "Седан", type: "Легковая", rarity: "Редкая",
+            description: "ВАЗ-2103 («Жигули») — советский заднеприводный автомобиль II группы малого класса с кузовом седан. Улучшенный вариант модели ВАЗ-2101. Автомобиль стал первой советской легковой машиной, получившей тахометр.",
+            imgFile: "ваз2103.png"
+        },
+        vaz2104: {
+            name: "ВАЗ-2104", years: "1984–2012", class: "Универсал", type: "Легковая", rarity: "Редкая",
+            description: "ВАЗ-2104 «Жигули» (LADA 2104) — советский и российский заднеприводный автомобиль III группы малого класса с кузовом типа универсал. Выпускался со 2 июля 1984 по 17 сентября 2012 года. Всего изготовлено около 1,14 млн автомобилей.",
+            imgFile: "ваз2104.png"
+        },
+        vaz2105: {
+            name: "ВАЗ-2105", years: "1980–2010", class: "Седан", type: "Легковая", rarity: "Редкая",
+            description: "ВАЗ-2105 («Жигули», LADA 2105) — советский и российский автомобиль малого класса. Второе поколение заводской «классики», итог глубокой модернизации модели ВАЗ-2101. В Европе продавался под названием Lada Nova или Lada Riva.",
+            imgFile: "ваз2105.png"
+        },
+        vaz2106: {
+            name: "ВАЗ-2106", years: "1976–2006", class: "Седан", type: "Легковая", rarity: "Обычная",
+            description: "ВАЗ-2106 «Жигули» — советский и российский заднеприводный автомобиль III группы малого класса с кузовом седан. Модернизация ВАЗ-2103. Всего произведено более 4,3 миллиона экземпляров.",
+            imgFile: "ваз2106.png"
+        },
+        vaz2107: {
+            name: "ВАЗ-2107", years: "1982–2012", class: "Седан", type: "Легковая", rarity: "Обычная",
+            description: "ВАЗ-2107 («Жигули», LADA 2107) — советский и российский заднеприводный автомобиль II группы малого класса с кузовом типа седан. Серийное производство началось 11 марта 1982 года. Последний седан сошёл с конвейера 17 апреля 2012 года.",
+            imgFile: "ваз-2107.png"
+        },
+        vaz2108: {
+            name: "ВАЗ-2108", years: "1984–2004", class: "Хетчбэк", type: "Легковая", rarity: "Обычная",
+            description: "ВАЗ-2108 («Спутник», простореч. названия — «восьмёрка» или «зубило») — советский и российский переднеприводный автомобиль II группы малого класса с кузовом типа трёхдверный хетчбэк. Первые серийные автомобили сошли с конвейера 22 декабря 1984 года. Выпуск продолжался 20 лет, собрано 884 657 экземпляров.",
+            imgFile: "ваз2108.png"
+        },
+        vaz2109: {
+            name: "ВАЗ-2109", years: "1987–2011", class: "Хетчбэк", type: "Легковая", rarity: "Обычная",
+            description: "ВАЗ-2109 — советский и российский переднеприводной автомобиль II группы малого класса с кузовом типа хэтчбек. Пятидверная модификация ВАЗ-2108. Получила народные названия — «девятка», «зубило». Серийное производство началось в 1987 году.",
+            imgFile: "ваз2109.png"
+        },
+        vaz21099: {
+            name: "ВАЗ-21099", years: "1990–2011", class: "Седан", type: "Легковая", rarity: "Обычная",
+            description: "ВАЗ-21099 «Спутник» (простореч. название — «девяносто девятая») — советский и российский легковой автомобиль II группы малого класса, первый переднеприводный седан Волжского автомобильного завода. Серийно выпускался с 22 декабря 1990 года по 30 июня 2004 года.",
+            imgFile: "ваз21099.png"
+        },
+        vaz2113: {
+            name: "ВАЗ-2113", years: "2004–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная",
+            description: "ВАЗ-2113 (LADA Samara) — трёхдверный хэтчбек, рестайлинговая версия ВАЗ-2108. Производился на заводе «АвтоВАЗ» с 2004 по 2013 год. Автомобиль оснащался разными моторами: от 1,5 л до 1,6 л. Производство прекращено в июне 2013 года.",
+            imgFile: "ваз2113.png"
+        },
+        vaz2114: {
+            name: "ВАЗ-2114", years: "2003–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная",
+            description: "ВАЗ-2114 (LADA Samara) — пятидверный хэтчбек, рестайлинговая версия ВАЗ-2109. Серийный выпуск — с апреля 2003 по декабрь 2013 года. Последний автомобиль сошёл с конвейера 24 декабря 2013 года.",
+            imgFile: "ваз2114.png"
+        },
+        vaz2115: {
+            name: "ВАЗ-2115", years: "1997–2012", class: "Седан", type: "Легковая", rarity: "Обычная",
+            description: "ВАЗ-2115 (LADA Samara) — субкомпактный переднеприводной автомобиль с кузовом типа седан. Рестайлинговая модель ВАЗ-21099. Выпускался с 1997 по 2012 год. Был снят с производства из-за появления Lada Granta.",
+            imgFile: "ваз2115.png"
+        }
+    };
+
+    const CARDS_DATA = {
+        vaz2101: { id: "vaz2101", name: "ВАЗ-2101", brand: "АвтоВАЗ", years: "1970–1983", class: "Седан", type: "Легковая", rarity: "Легендарная", rarityKey: "legendary", rarityClass: "rarity-legendary", sellPrice: 150, buyPrice: 300, colorClass: "card-legendary", imgFile: "ваз2101.png" },
+        vaz2102: { id: "vaz2102", name: "ВАЗ-2102", brand: "АвтоВАЗ", years: "1971–1986", class: "Универсал", type: "Легковая", rarity: "Редкая", rarityKey: "rare", rarityClass: "rarity-rare", sellPrice: 75, buyPrice: 150, colorClass: "card-rare", imgFile: "ваз2102.png" },
+        vaz2103: { id: "vaz2103", name: "ВАЗ-2103", brand: "АвтоВАЗ", years: "1972–1984", class: "Седан", type: "Легковая", rarity: "Редкая", rarityKey: "rare", rarityClass: "rarity-rare", sellPrice: 75, buyPrice: 150, colorClass: "card-rare", imgFile: "ваз2103.png" },
+        vaz2104: { id: "vaz2104", name: "ВАЗ-2104", brand: "АвтоВАЗ", years: "1984–2012", class: "Универсал", type: "Легковая", rarity: "Редкая", rarityKey: "rare", rarityClass: "rarity-rare", sellPrice: 75, buyPrice: 150, colorClass: "card-rare", imgFile: "ваз2104.png" },
+        vaz2105: { id: "vaz2105", name: "ВАЗ-2105", brand: "АвтоВАЗ", years: "1980–2010", class: "Седан", type: "Легковая", rarity: "Редкая", rarityKey: "rare", rarityClass: "rarity-rare", sellPrice: 75, buyPrice: 150, colorClass: "card-rare", imgFile: "ваз2105.png" },
+        vaz2106: { id: "vaz2106", name: "ВАЗ-2106", brand: "АвтоВАЗ", years: "1976–2006", class: "Седан", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2106.png" },
+        vaz2107: { id: "vaz2107", name: "ВАЗ-2107", brand: "АвтоВАЗ", years: "1982–2012", class: "Седан", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз-2107.png" },
+        vaz2108: { id: "vaz2108", name: "ВАЗ-2108", brand: "АвтоВАЗ", years: "1984–2004", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2108.png" },
+        vaz2109: { id: "vaz2109", name: "ВАЗ-2109", brand: "АвтоВАЗ", years: "1987–2011", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2109.png" },
+        vaz21099: { id: "vaz21099", name: "ВАЗ-21099", brand: "АвтоВАЗ", years: "1990–2011", class: "Седан", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз21099.png" },
+        vaz2113: { id: "vaz2113", name: "ВАЗ-2113", brand: "АвтоВАЗ", years: "2004–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2113.png" },
+        vaz2114: { id: "vaz2114", name: "ВАЗ-2114", brand: "АвтоВАЗ", years: "2003–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2114.png" },
+        vaz2115: { id: "vaz2115", name: "ВАЗ-2115", brand: "АвтоВАЗ", years: "1997–2012", class: "Седан", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2115.png" }
+    };
+
+    let achievements = {
+        firstCar: false,
+        allAvtovaz: false,
+        goldCar: false,
+        diamondCar: false,
+        firstRare: false
+    };
+
+    const achievementsList = [
+        { id: "firstCar", title: "ПЕРВАЯ МАШИНА!", desc: "Получите свою первую машину в коллекцию", icon: "🚗" },
+        { id: "firstRare", title: "ПЕРВАЯ РЕДКАЯ МАШИНА!", desc: "Получите редкую карту в коллекцию", icon: "🔵" },
+        { id: "goldCar", title: "ЗОЛОТАЯ МАШИНА!", desc: "Создайте или получите золотую карту", icon: "⭐" },
+        { id: "diamondCar", title: "АЛМАЗНАЯ МАШИНА!", desc: "Создайте или получите алмазную карту", icon: "💎" },
+        { id: "allAvtovaz", title: "ВСЕ МАШИНЫ АВТОВАЗА!", desc: "Соберите полную коллекцию АвтоВАЗа (13 моделей)", icon: "🏭" }
+    ];
+
+    function showAchievement(title, description) {
+        const toast = document.createElement('div');
+        toast.className = 'achievement-toast';
+        toast.innerHTML = `<span style="font-size:1.5rem;">🏆</span> <strong>${title}</strong><br><span style="font-size:0.8rem;">${description}</span>`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 4000);
+    }
+
+    function showAchievementsModal() {
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        
+        let html = `<div class="achievements-window">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="margin:0;">🏆 ДОСТИЖЕНИЯ</h2>
+                <button id="closeAchievementsBtn" style="background:#c97e2a; border:none; padding:5px 15px; border-radius:30px; cursor:pointer;">✖</button>
+            </div>`;
+        
+        for (let ach of achievementsList) {
+            const unlocked = achievements[ach.id];
+            html += `
+                <div class="achievement-item ${!unlocked ? 'locked' : ''}">
+                    <div class="achievement-icon">${ach.icon}</div>
+                    <div class="achievement-info">
+                        <div class="achievement-title">${ach.title} ${unlocked ? '✅' : '🔒'}</div>
+                        <div class="achievement-desc">${ach.desc}</div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        html += `<button class="modal-close" style="margin-top:20px;">Закрыть</button></div>`;
+        overlay.innerHTML = html;
+        document.body.appendChild(overlay);
+        
+        overlay.querySelector('#closeAchievementsBtn').onclick = () => overlay.remove();
+        overlay.querySelector('.modal-close').onclick = () => overlay.remove();
+    }
+
+    function checkAchievements() {
+        let totalCards = 0;
+        let rareCount = 0;
+        let goldCount = 0;
+        let diamondCount = 0;
+        let avtovazModels = 0;
+        const requiredModels = Object.keys(CARDS_DATA).length;
+
+        for (let model in inventory) {
+            const common = inventory[model].common;
+            const gold = inventory[model].gold;
+            const diamond = inventory[model].diamond;
+            const hasAny = common > 0 || gold > 0 || diamond > 0;
+            totalCards += common + gold + diamond;
+            goldCount += gold;
+            diamondCount += diamond;
+            if (hasAny) avtovazModels++;
+            
+            if (CARDS_DATA[model]?.rarity === "Редкая" && common > 0) rareCount += common;
+            if (CARDS_DATA[model]?.rarity === "Редкая" && gold > 0) rareCount += gold;
+            if (CARDS_DATA[model]?.rarity === "Редкая" && diamond > 0) rareCount += diamond;
+        }
+
+        if (!achievements.firstCar && totalCards >= 1) {
+            achievements.firstCar = true;
+            showAchievement("ПЕРВАЯ МАШИНА!", "Вы получили свою первую машину в коллекцию!");
+            saveAllSlots();
+        }
+
+        if (!achievements.firstRare && rareCount >= 1) {
+            achievements.firstRare = true;
+            showAchievement("ПЕРВАЯ РЕДКАЯ МАШИНА!", "Вы получили редкую карту в коллекцию!");
+            saveAllSlots();
+        }
+
+        if (!achievements.goldCar && goldCount >= 1) {
+            achievements.goldCar = true;
+            showAchievement("ЗОЛОТАЯ МАШИНА!", "Вы создали или получили золотую карту!");
+            saveAllSlots();
+        }
+
+        if (!achievements.diamondCar && diamondCount >= 1) {
+            achievements.diamondCar = true;
+            showAchievement("АЛМАЗНАЯ МАШИНА!", "Вы создали или получили алмазную карту!");
+            saveAllSlots();
+        }
+
+        if (!achievements.allAvtovaz && avtovazModels >= requiredModels) {
+            achievements.allAvtovaz = true;
+            showAchievement("ВСЕ МАШИНЫ АВТОВАЗА!", "Вы собрали полную коллекцию АвтоВАЗа (13 моделей)!");
+            saveAllSlots();
+        }
+    }
+
+    let slots = [
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false }, inventory: {} },
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false }, inventory: {} },
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false }, inventory: {} },
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false }, inventory: {} },
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false }, inventory: {} }
+    ];
+
+    // Инициализация inventory для всех слотов
+    for (let i = 0; i < slots.length; i++) {
+        slots[i].inventory = {};
+        for (let model in CARDS_DATA) {
+            slots[i].inventory[model] = { common: 0, gold: 0, diamond: 0 };
+        }
+    }
+
+    let currentSlot = 0;
+    let currentMode = null;
+    let gameStarted = false;
+    let currentBrandsOverlay = null;
+    let isTestMode = false;
+
+    let playerMoney = 500;
+    let infiniteMoney = false;
+    let inventory = {};
+    for (let model in CARDS_DATA) {
+        inventory[model] = { common: 0, gold: 0, diamond: 0 };
+    }
+
+    let moneyDisplay, allSection, collectionSection, allCardsGrid, collectionGrid;
+    let openPackBtn, deliveryBtn, brandsBtn, battleBtn, achievementsBtn, slotsContainer, testPanel, testMenuBtn;
+
+    function saveAllSlots() {
+        if (currentMode !== 'all') {
+            slots[currentSlot] = {
+                playerMoney: playerMoney,
+                infiniteMoney: infiniteMoney,
+                testMode: isTestMode,
+                achievements: achievements,
+                inventory: JSON.parse(JSON.stringify(inventory))
+            };
+        }
+        localStorage.setItem(SAVE_KEY, JSON.stringify(slots));
+    }
+
+    function loadAllSlots() {
+        const saved = localStorage.getItem(SAVE_KEY);
+        if (saved) {
+            try {
+                const loadedSlots = JSON.parse(saved);
+                if (Array.isArray(loadedSlots) && loadedSlots.length === 5) {
+                    slots = loadedSlots;
+                    return true;
+                }
+            } catch(e) {}
+        }
+        return false;
+    }
+
+    function loadSlot(index, mode) {
+        if (index === currentSlot && mode === currentMode) return;
+        
+        if (currentMode !== 'all') {
+            slots[currentSlot] = {
+                playerMoney: playerMoney,
+                infiniteMoney: infiniteMoney,
+                testMode: isTestMode,
+                achievements: achievements,
+                inventory: JSON.parse(JSON.stringify(inventory))
+            };
+        }
+        
+        currentSlot = index;
+        playerMoney = slots[currentSlot].playerMoney;
+        infiniteMoney = slots[currentSlot].infiniteMoney;
+        isTestMode = slots[currentSlot].testMode || false;
+        achievements = slots[currentSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false };
+        inventory = JSON.parse(JSON.stringify(slots[currentSlot].inventory));
+        
+        setMode(mode);
+        updateUI();
+        renderSlotsUI();
+        
+        if (currentBrandsOverlay && currentBrandsOverlay.isConnected) {
+            currentBrandsOverlay.remove();
+            currentBrandsOverlay = null;
+        }
+        
+        alert(`Загружен слот ${currentSlot + 1} в режиме ${mode === 'all' ? 'Все карты' : (mode === 'infinite' ? 'Бесконечные деньги' : (mode === 'test' ? 'Тестовый режим' : 'Коллекция'))}`);
+    }
+
+    function saveCurrentSlot() {
+        if (currentMode === 'all') {
+            alert("В режиме 'Все карты' сохранение не работает.");
+            return;
+        }
+        slots[currentSlot] = {
+            playerMoney: playerMoney,
+            infiniteMoney: infiniteMoney,
+            testMode: isTestMode,
+            achievements: achievements,
+            inventory: JSON.parse(JSON.stringify(inventory))
+        };
+        saveAllSlots();
+        renderSlotsUI();
+        alert(`Слот ${currentSlot + 1} сохранён!`);
+    }
+
+    function clearSlot(index) {
+        if (confirm(`Очистить слот ${index + 1}? Все данные будут потеряны.`)) {
+            let emptyInventory = {};
+            for (let model in CARDS_DATA) {
+                emptyInventory[model] = { common: 0, gold: 0, diamond: 0 };
+            }
+            slots[index] = {
+                playerMoney: 500,
+                infiniteMoney: false,
+                testMode: false,
+                achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false },
+                inventory: emptyInventory
+            };
+            saveAllSlots();
+            
+            if (index === currentSlot && currentMode !== 'all') {
+                playerMoney = slots[currentSlot].playerMoney;
+                infiniteMoney = slots[currentSlot].infiniteMoney;
+                isTestMode = slots[currentSlot].testMode || false;
+                achievements = slots[currentSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false };
+                inventory = JSON.parse(JSON.stringify(slots[currentSlot].inventory));
+                updateUI();
+            }
+            renderSlotsUI();
+            alert(`Слот ${index + 1} очищен!`);
+        }
+    }
+
+    function renderSlotsUI() {
+        if (!slotsContainer) return;
+        slotsContainer.innerHTML = '';
+        
+        for (let i = 0; i < slots.length; i++) {
+            const slot = slots[i];
+            const isActive = (i === currentSlot && currentMode !== 'all');
+            
+            let totalCards = 0;
+            for (let model in slot.inventory) {
+                totalCards += slot.inventory[model].common + slot.inventory[model].gold + slot.inventory[model].diamond;
+            }
+            
+            const slotDiv = document.createElement('div');
+            slotDiv.className = `slot-card ${isActive ? 'active-slot' : ''}`;
+            slotDiv.innerHTML = `
+                <div class="slot-name">💾 Слот ${i+1} ${isActive ? '⭐' : ''}</div>
+                <div class="slot-info">💰 $${slot.playerMoney} | 🃏 ${totalCards} карт</div>
+                <div class="slot-buttons">
+                    <button class="slot-small-btn load-slot" data-slot="${i}" data-mode="collection">📂 Коллекция</button>
+                    <button class="slot-small-btn load-slot" data-slot="${i}" data-mode="infinite">💰 Бесконечные</button>
+                    <button class="slot-small-btn load-slot" data-slot="${i}" data-mode="test">🧪 Тестовый</button>
+                    <button class="slot-small-btn save-slot" data-slot="${i}">💾 Сохранить</button>
+                    <button class="slot-small-btn clear-slot" data-slot="${i}">🗑️ Очистить</button>
+                </div>
+            `;
+            
+            const loadCollectionBtn = slotDiv.querySelector('.load-slot[data-mode="collection"]');
+            const loadInfiniteBtn = slotDiv.querySelector('.load-slot[data-mode="infinite"]');
+            const loadTestBtn = slotDiv.querySelector('.load-slot[data-mode="test"]');
+            const saveBtn = slotDiv.querySelector('.save-slot');
+            const clearBtn = slotDiv.querySelector('.clear-slot');
+            
+            loadCollectionBtn.onclick = (e) => { e.stopPropagation(); loadSlot(i, 'collection'); };
+            loadInfiniteBtn.onclick = (e) => { e.stopPropagation(); loadSlot(i, 'infinite'); };
+            loadTestBtn.onclick = (e) => { e.stopPropagation(); loadSlot(i, 'test'); };
+            saveBtn.onclick = (e) => { e.stopPropagation(); saveCurrentSlot(); };
+            clearBtn.onclick = (e) => { e.stopPropagation(); clearSlot(i); };
+            
+            slotsContainer.appendChild(slotDiv);
+        }
+    }
+
+    function updateUI() {
+        if (currentMode === 'all') {
+            moneyDisplay.innerText = `📚 РЕЖИМ ПРОСМОТРА`;
+            moneyDisplay.classList.remove('infinity', 'test');
+        } else if (isTestMode) {
+            moneyDisplay.innerText = `🧪 ТЕСТОВЫЙ РЕЖИМ`;
+            moneyDisplay.classList.add('test');
+            moneyDisplay.classList.remove('infinity');
+        } else if (infiniteMoney) {
+            moneyDisplay.innerText = `💰 ∞ БЕСКОНЕЧНО`;
+            moneyDisplay.classList.add('infinity');
+            moneyDisplay.classList.remove('test');
+        } else {
+            moneyDisplay.innerText = `💰 $${playerMoney}`;
+            moneyDisplay.classList.remove('infinity', 'test');
+        }
+        renderCollection();
+        renderAllCards();
+        if (currentBrandsOverlay && currentBrandsOverlay.isConnected) {
+            refreshBrandsColors();
+        }
+        renderSlotsUI();
+        if (currentMode !== 'all') {
+            saveAllSlots();
+        }
+    }
+
+    function refreshBrandsColors() {
+        if (!currentBrandsOverlay || !currentBrandsOverlay.isConnected) return;
+        const carCards = currentBrandsOverlay.querySelectorAll('.brand-car-card');
+        carCards.forEach(card => {
+            const modelId = card.dataset.model;
+            if (modelId && inventory[modelId]) {
+                const goldCount = inventory[modelId].gold;
+                const diamondCount = inventory[modelId].diamond;
+                card.classList.remove('gold-card', 'diamond-card');
+                if (diamondCount > 0) card.classList.add('diamond-card');
+                else if (goldCount > 0) card.classList.add('gold-card');
+            }
+        });
+    }
+
+    function canAfford(amount) {
+        return isTestMode || infiniteMoney || playerMoney >= amount;
+    }
+
+    function spendMoney(amount) {
+        if (!isTestMode && !infiniteMoney) {
+            playerMoney -= amount;
+        }
+        updateUI();
+    }
+
+    function addMoney(amount) {
+        if (!isTestMode && !infiniteMoney) {
+            playerMoney += amount;
+        }
+        updateUI();
+    }
+
+    function renderAllCards() {
+        if (!allCardsGrid) return;
+        allCardsGrid.innerHTML = '';
+        for (let id in CARDS_DATA) {
+            const card = CARDS_DATA[id];
+            const info = FULL_CARD_INFO[id];
+            const div = document.createElement('div');
+            div.className = `card ${card.colorClass}`;
+            div.innerHTML = `<div class="card-img"><img src="${card.imgFile}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%233d2b1a%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23ddb582%22%3E🚗%3C/text%3E%3C/svg%3E';"></div>
+            <div class="card-info"><div class="card-name">${card.name}</div><div class="brand-tag">🏭 ${card.brand}</div>
+            <div class="card-detail">${card.years} | ${card.class} | ${card.type}</div>
+            <div class="rarity-container"><div class="card-rarity ${info.rarityClass}">${info.rarity}</div></div>
+            <div class="card-desc">${info.description.substring(0, 100)}...</div>
+            <div class="card-desc"><strong>💰 Цена:</strong> $${card.buyPrice} | Продажа: $${card.sellPrice}</div></div>`;
+            
+            div.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                showFullCardModal(id, 'common');
+                return false;
+            });
+            
+            allCardsGrid.appendChild(div);
+        }
+    }
+
+    function renderCollection() {
+        if (!collectionGrid) return;
+        collectionGrid.innerHTML = '';
+        if (currentMode === 'all') {
+            collectionGrid.innerHTML = '<div style="padding:40px;text-align:center;">Режим просмотра всех карт. Для коллекции выберите слот и режим.</div>';
+            return;
+        }
+        for (let modelId in inventory) {
+            const inv = inventory[modelId];
+            const baseCard = CARDS_DATA[modelId];
+            const info = FULL_CARD_INFO[modelId];
+            
+            for (let i = 0; i < inv.common; i++) {
+                collectionGrid.appendChild(createCardElement(baseCard, info, null, modelId));
+            }
+            for (let i = 0; i < inv.gold; i++) {
+                collectionGrid.appendChild(createCardElement(baseCard, info, 'gold', modelId));
+            }
+            for (let i = 0; i < inv.diamond; i++) {
+                collectionGrid.appendChild(createCardElement(baseCard, info, 'diamond', modelId));
+            }
+        }
+        if (collectionGrid.children.length === 0) collectionGrid.innerHTML = '<div style="padding:40px;text-align:center;">Коллекция пуста. Купите карту!</div>';
+    }
+
+    function createCardElement(cardData, info, upgradeType, modelId) {
+        const cardDiv = document.createElement('div');
+        let colorClass = cardData.colorClass;
+        let sellPrice = cardData.sellPrice;
+        
+        if (upgradeType === 'gold') {
+            colorClass = 'card-gold';
+            sellPrice = 250;
+        } else if (upgradeType === 'diamond') {
+            colorClass = 'card-diamond';
+            sellPrice = 500;
+        }
+        
+        cardDiv.className = `card ${colorClass}`;
+        
+        let rarityHtml = `<div class="rarity-container"><div class="card-rarity ${info.rarityClass}">${info.rarity}</div>`;
+        if (upgradeType === 'gold') {
+            rarityHtml += `<div class="upgrade-badge upgrade-gold">⭐ Золотая</div>`;
+        } else if (upgradeType === 'diamond') {
+            rarityHtml += `<div class="upgrade-badge upgrade-diamond">💎 Алмазная</div>`;
+        }
+        rarityHtml += `</div>`;
+        
+        cardDiv.innerHTML = `
+            <div class="card-img"><img src="${cardData.imgFile}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%233d2b1a%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23ddb582%22%3E🚗%3C/text%3E%3C/svg%3E';"></div>
+            <div class="card-info"><div class="card-name">${cardData.name}</div><div class="brand-tag">🏭 ${cardData.brand}</div>
+            <div class="card-detail">${cardData.years} | ${cardData.class} | ${cardData.type}</div>
+            ${rarityHtml}
+            <div class="card-desc">${info.description.substring(0, 80)}...</div>
+            <div class="card-desc"><strong>💰 Продажа:</strong> $${sellPrice}</div></div>
+            <div class="card-actions"><button class="btn btn-sell" data-model="${modelId}" data-rarity="${upgradeType || 'common'}">💵 Продать</button>
+            <button class="btn btn-battle" data-model="${modelId}" data-upgrade="${upgradeType || 'common'}">⚔️ В БИТВУ</button></div>`;
+        
+        cardDiv.addEventListener('contextmenu', (e) => { e.preventDefault(); showFullCardModal(modelId, upgradeType || 'common'); return false; });
+        return cardDiv;
+    }
+
+    function sellCard(modelId, rarityType) {
+        if (currentMode === 'all') {
+            alert("В режиме просмотра нельзя продавать карты.");
+            return;
+        }
+        if (inventory[modelId][rarityType] <= 0) return;
+        let price = 0;
+        if (rarityType === 'common') price = CARDS_DATA[modelId].sellPrice;
+        else if (rarityType === 'gold') price = 250;
+        else price = 500;
+        
+        if (confirm(`Продать ${rarityType === 'common' ? 'обычную' : rarityType === 'gold' ? 'золотую' : 'алмазную'} карту ${CARDS_DATA[modelId].name} за $${price}?`)) {
+            inventory[modelId][rarityType]--;
+            if (!isTestMode && !infiniteMoney) playerMoney += price;
+            updateUI();
+            checkAchievements();
+        }
+    }
+
+    function startBattle(modelId, upgradeType) {
+        if (currentMode === 'all') {
+            alert("В режиме просмотра битва недоступна.");
+            return;
+        }
+        
+        const playerCard = CARDS_DATA[modelId];
+        let playerRarity = playerCard.rarity;
+        if (upgradeType === 'gold') playerRarity = "Золотая";
+        if (upgradeType === 'diamond') playerRarity = "Алмазная";
+        
+        const playerScore = getRarityScore(playerRarity);
+        
+        const allModels = Object.keys(CARDS_DATA);
+        const randomModel = allModels[Math.floor(Math.random() * allModels.length)];
+        const enemyCard = CARDS_DATA[randomModel];
+        
+        const enemyUpgradeRand = Math.random();
+        let enemyUpgrade = 'common';
+        let enemyRarity = enemyCard.rarity;
+        if (enemyUpgradeRand < 0.1) {
+            enemyUpgrade = 'diamond';
+            enemyRarity = "Алмазная";
+        } else if (enemyUpgradeRand < 0.25) {
+            enemyUpgrade = 'gold';
+            enemyRarity = "Золотая";
+        }
+        
+        const enemyScore = getRarityScore(enemyRarity);
+        
+        let resultMessage = `Ваш ${playerCard.name} (${playerRarity}) vs ${enemyCard.name} (${enemyRarity})!\n`;
+        
+        if (playerScore > enemyScore) {
+            addMoney(50);
+            resultMessage += `🏆 ПОБЕДА! Вы получаете $50!`;
+        } else if (playerScore < enemyScore) {
+            spendMoney(50);
+            resultMessage += `💀 ПОРАЖЕНИЕ! Вы теряете $50!`;
+        } else {
+            resultMessage += `🤝 НИЧЬЯ! Ничего не изменилось.`;
+        }
+        
+        alert(resultMessage);
+        updateUI();
+    }
+    
+    function getRarityScore(rarity) {
+        if (rarity === "Алмазная") return 100;
+        if (rarity === "Золотая") return 50;
+        if (rarity === "Легендарная") return 10;
+        if (rarity === "Редкая") return 5;
+        return 1;
+    }
+
+    function showFullCardModal(modelId, rarityType) {
+        const info = FULL_CARD_INFO[modelId];
+        let cardData = CARDS_DATA[modelId];
+        let sellPrice = cardData.sellPrice;
+        let upgradeText = '';
+        if (rarityType === 'gold') { upgradeText = 'Золотая'; sellPrice = 250; }
+        else if (rarityType === 'diamond') { upgradeText = 'Алмазная'; sellPrice = 500; }
+        
+        const modal = document.createElement('div');
+        modal.className = 'card-modal';
+        modal.innerHTML = `<div class="card-modal-content"><div style="text-align:center;"><img src="${cardData.imgFile}" style="max-width:200px;" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%233d2b1a%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23ddb582%22%3E🚗%3C/text%3E%3C/svg%3E';"></div>
+        <h2>${info.name} ${upgradeText ? `(${upgradeText})` : ''}</h2>
+        <p><strong>🏭 Марка:</strong> ${cardData.brand}</p>
+        <p><strong>📅 Годы производства:</strong> ${info.years}</p>
+        <p><strong>🚘 Класс/Тип:</strong> ${info.class}, ${info.type}</p>
+        <p><strong>⭐ Редкость:</strong> ${info.rarity}${upgradeText ? ` + ${upgradeText}` : ''}</p>
+        <p><strong>📖 Полное описание:</strong><br>${info.description}</p>
+        <p><strong>💰 Стоимость продажи:</strong> $${sellPrice}</p>
+        <button class="modal-close">Закрыть</button></div>`;
+        document.body.appendChild(modal);
+        modal.querySelector('.modal-close').onclick = () => modal.remove();
+    }
+
+    function showNotObtainedModal(carName) {
+        const modal = document.createElement('div');
+        modal.className = 'card-modal';
+        modal.innerHTML = `
+            <div class="info-modal-content">
+                <div style="font-size: 4rem;">🔒</div>
+                <h2>${carName}</h2>
+                <p style="font-size:1.2rem; color:#c0392b;">❌ КАРТА НЕ ПОЛУЧЕНА ❌</p>
+                <p>Сначала получите эту карту в коллекции, чтобы открыть крафт и информацию.</p>
+                <p style="margin-top:15px; font-size:0.9rem; color:#7f8c8d;">Купите карту в разделе "Коллекция" за $${CARDS_DATA[carName]?.buyPrice || 100}</p>
+                <button class="modal-close">Закрыть</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        modal.querySelector('.modal-close').onclick = () => modal.remove();
+    }
+
+    function showCraftModal(modelId, refreshCallback) {
+        if (currentMode === 'all') {
+            alert("В режиме просмотра крафт недоступен.");
+            return;
+        }
+        const card = CARDS_DATA[modelId];
+        const info = FULL_CARD_INFO[modelId];
+        const commonCount = inventory[modelId].common;
+        const goldCount = inventory[modelId].gold;
+        const diamondCount = inventory[modelId].diamond;
+        
+        const modal = document.createElement('div');
+        modal.className = 'card-modal';
+        modal.innerHTML = `
+            <div class="craft-modal-content">
+                <div style="text-align:center;">
+                    <img src="${card.imgFile}" style="max-width:150px;" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%233d2b1a%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23ddb582%22%3E🚗%3C/text%3E%3C/svg%3E';">
+                </div>
+                <h2>${card.name}</h2>
+                <p><strong>🏭 Марка:</strong> ${card.brand}</p>
+                <p><strong>⭐ Редкость:</strong> ${info.rarity}</p>
+                <div style="background:#2c241a; border-radius:30px; padding:15px; margin:15px 0; color:white;">
+                    <h3 style="margin:0 0 10px 0;">📊 Количество карт:</h3>
+                    <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
+                        <div class="card-rarity rarity-common">⚪ Обычные: ${commonCount}</div>
+                        <div class="upgrade-badge upgrade-gold">⭐ Золотые: ${goldCount}</div>
+                        <div class="upgrade-badge upgrade-diamond">💎 Алмазные: ${diamondCount}</div>
+                    </div>
+                </div>
+                <div class="craft-buttons">
+                    <button id="craftGoldBtn" class="craft-btn-small" ${!isTestMode && commonCount < 10 ? 'disabled' : ''}>🔨 10 обычных → 1 золотая</button>
+                    <button id="craftDiamondBtn" class="craft-btn-small" ${!isTestMode && goldCount < 5 ? 'disabled' : ''}>🔨 5 золотых → 1 алмазная</button>
+                </div>
+                ${isTestMode ? '<p style="font-size:0.7rem; margin-top:10px;">🧪 Тестовый режим: крафт доступен всегда!</p>' : ''}
+                <button class="modal-close" style="margin-top:20px;">Закрыть</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        modal.querySelector('#craftGoldBtn').onclick = () => {
+            if (isTestMode || inventory[modelId].common >= 10) {
+                if (!isTestMode) inventory[modelId].common -= 10;
+                inventory[modelId].gold++;
+                updateUI();
+                modal.remove();
+                if (refreshCallback) refreshCallback();
+                checkAchievements();
+                alert(`✨ Крафт успешен! Вы получили золотую карту ${card.name}!`);
+            } else {
+                alert(`Недостаточно обычных карт! Нужно 10, у вас ${inventory[modelId].common}`);
+            }
+        };
+        
+        modal.querySelector('#craftDiamondBtn').onclick = () => {
+            if (isTestMode || inventory[modelId].gold >= 5) {
+                if (!isTestMode) inventory[modelId].gold -= 5;
+                inventory[modelId].diamond++;
+                updateUI();
+                modal.remove();
+                if (refreshCallback) refreshCallback();
+                checkAchievements();
+                alert(`💎 ВЕЛИКОЛЕПНО! Вы получили алмазную карту ${card.name}!`);
+            } else {
+                alert(`Недостаточно золотых карт! Нужно 5, у вас ${inventory[modelId].gold}`);
+            }
+        };
+        
+        modal.querySelector('.modal-close').onclick = () => modal.remove();
+    }
+
+    function buyRandomCard() {
+        if (currentMode === 'all') {
+            alert("В режиме просмотра нельзя покупать карты.");
+            return;
+        }
+        if (!canAfford(100)) return alert(`Не хватает денег! Нужно $100.`);
+        
+        // Шансы выпадения: 13 моделей
+        const rand = Math.random();
+        let randomModel;
+        if (rand < 0.1) randomModel = 'vaz2101';
+        else if (rand < 0.18) randomModel = 'vaz2102';
+        else if (rand < 0.26) randomModel = 'vaz2103';
+        else if (rand < 0.34) randomModel = 'vaz2104';
+        else if (rand < 0.42) randomModel = 'vaz2105';
+        else if (rand < 0.5) randomModel = 'vaz2106';
+        else if (rand < 0.58) randomModel = 'vaz2107';
+        else if (rand < 0.66) randomModel = 'vaz2108';
+        else if (rand < 0.74) randomModel = 'vaz2109';
+        else if (rand < 0.82) randomModel = 'vaz21099';
+        else if (rand < 0.88) randomModel = 'vaz2113';
+        else if (rand < 0.94) randomModel = 'vaz2114';
+        else randomModel = 'vaz2115';
+        
+        const card = CARDS_DATA[randomModel];
+        spendMoney(card.buyPrice);
+        inventory[randomModel].common++;
+        updateUI();
+        checkAchievements();
+        alert(`✅ Вы купили карту ${card.name} (${card.rarity}) за $${card.buyPrice}!`);
+    }
+
+    function testAddCard() {
+        const carSelect = document.getElementById('testCarSelect');
+        const raritySelect = document.getElementById('testRaritySelect');
+        const modelId = carSelect.value;
+        const rarity = raritySelect.value;
+        inventory[modelId][rarity]++;
+        updateUI();
+        checkAchievements();
+        alert(`🧪 Добавлена ${rarity === 'common' ? 'обычная' : rarity === 'gold' ? 'золотая' : 'алмазная'} карта ${CARDS_DATA[modelId].name}!`);
+    }
+
+    function testCraftGold() {
+        const carSelect = document.getElementById('testCarSelect');
+        const modelId = carSelect.value;
+        inventory[modelId].gold++;
+        updateUI();
+        checkAchievements();
+        alert(`🧪 Создана золотая карта ${CARDS_DATA[modelId].name} (без траты материалов)!`);
+    }
+
+    function testCraftDiamond() {
+        const carSelect = document.getElementById('testCarSelect');
+        const modelId = carSelect.value;
+        inventory[modelId].diamond++;
+        updateUI();
+        checkAchievements();
+        alert(`🧪 Создана алмазная карта ${CARDS_DATA[modelId].name} (без траты материалов)!`);
+    }
+
+    function startClickerGame() {
+        if (currentMode === 'all') {
+            alert("В режиме просмотра доставка недоступна.");
+            return;
+        }
+        if (isTestMode) {
+            alert("В тестовом режиме доставка не нужна, но мы добавим вам 1000$ для веселья!");
+            playerMoney += 1000;
+            updateUI();
+            return;
+        }
+        if (infiniteMoney) {
+            alert("В режиме бесконечных денег доставка не нужна, но мы добавим вам 1000$ для веселья!");
+            playerMoney += 1000;
+            updateUI();
+            return;
+        }
+        
+        let score = 0;
+        let timeLeft = 10;
+        let gameActive = true;
+        
+        const overlay = document.createElement('div');
+        overlay.className = 'minigame-overlay';
+        overlay.innerHTML = `
+            <div class="minigame-window">
+                <h2>🍕 ДОСТАВКА ПИЦЦЫ 🍕</h2>
+                <p>Жми на пиццу! Каждый клик = +$5</p>
+                <div class="timer-bar" id="timerBar" style="width:100%"></div>
+                <div class="pizza-click-area" id="pizzaClickArea">
+                    🍕
+                </div>
+                <div>Счёт: <span id="gameScore">0</span> кликов</div>
+                <div>Заработано: $<span id="gameEarned">0</span></div>
+                <button id="closeGameBtn" style="margin-top:15px; background:#c97e2a; border:none; padding:8px 20px; border-radius:30px; cursor:pointer;">Закрыть</button>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        
+        const timerBar = overlay.querySelector('#timerBar');
+        const scoreSpan = overlay.querySelector('#gameScore');
+        const earnedSpan = overlay.querySelector('#gameEarned');
+        const pizzaArea = overlay.querySelector('#pizzaClickArea');
+        
+        const interval = setInterval(() => {
+            if (!gameActive) return;
+            timeLeft -= 0.1;
+            if (timeLeft <= 0) {
+                gameActive = false;
+                clearInterval(interval);
+                pizzaArea.style.pointerEvents = 'none';
+                pizzaArea.style.opacity = '0.5';
+                const totalEarned = score * 5;
+                playerMoney += totalEarned;
+                updateUI();
+                alert(`🎉 Игра окончена! Вы заработали $${totalEarned} (${score} кликов)!`);
+                overlay.remove();
+            }
+            const percent = (timeLeft / 10) * 100;
+            timerBar.style.width = `${Math.max(0, percent)}%`;
+        }, 100);
+        
+        pizzaArea.addEventListener('click', () => {
+            if (!gameActive) return;
+            score++;
+            const earned = score * 5;
+            scoreSpan.innerText = score;
+            earnedSpan.innerText = earned;
+            pizzaArea.style.transform = 'scale(0.95)';
+            setTimeout(() => { pizzaArea.style.transform = ''; }, 80);
+        });
+        
+        overlay.querySelector('#closeGameBtn').addEventListener('click', () => {
+            gameActive = false;
+            clearInterval(interval);
+            overlay.remove();
+        });
+    }
+
+    const BRANDS = { "АвтоВАЗ": { img: "АвтоВАЗ.png", models: [] } };
+    for (let id in CARDS_DATA) {
+        BRANDS["АвтоВАЗ"].models.push({ id: id, name: CARDS_DATA[id].name });
+    }
+    
+    function showBrandsList() {
+        const overlay = document.createElement('div'); overlay.className = 'modal-overlay';
+        let html = `<div class="modal-window"><div style="display:flex; justify-content:space-between; margin-bottom:20px;"><h2>🏭 ВЫБЕРИТЕ МАРКУ</h2><button id="closeBtn" style="background:#c97e2a; border:none; padding:5px 15px; border-radius:30px; cursor:pointer;">✖</button></div><div class="brands-list">`;
+        for (let name in BRANDS) html += `<div class="brand-item" data-brand="${name}"><img src="${BRANDS[name].img}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23333%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2220%22 text-anchor=%22middle%22 fill=%22white%22%3E${name}%3C/text%3E%3C/svg%3E';"><h3>${name}</h3></div>`;
+        html += `</div></div>`;
+        overlay.innerHTML = html; document.body.appendChild(overlay);
+        overlay.querySelectorAll('.brand-item').forEach(el => el.onclick = () => { overlay.remove(); showBrandCars(el.dataset.brand); });
+        overlay.querySelector('#closeBtn').onclick = () => overlay.remove();
+    }
+    
+    function showBrandCars(brandName) {
+        if (currentMode === 'all') {
+            alert("В режиме просмотра марки недоступны.");
+            return;
+        }
+        if (currentBrandsOverlay && currentBrandsOverlay.isConnected) {
+            currentBrandsOverlay.remove();
+        }
+        
+        const brand = BRANDS[brandName];
+        const overlay = document.createElement('div'); overlay.className = 'modal-overlay';
+        currentBrandsOverlay = overlay;
+        
+        let html = `<div class="modal-window"><div style="display:flex; gap:10px; margin-bottom:20px;"><button id="backBtn" style="background:#7f8c8d; border:none; padding:8px 20px; border-radius:30px; cursor:pointer;">◀ Назад</button><h2 style="margin:0;">${brandName}</h2><button id="closeBtn" style="background:#c97e2a; border:none; padding:5px 15px; border-radius:30px; margin-left:auto; cursor:pointer;">✖</button></div><div class="brand-cars-grid">`;
+        
+        for (let m of brand.models) {
+            const commonCount = inventory[m.id].common;
+            const goldCount = inventory[m.id].gold;
+            const diamondCount = inventory[m.id].diamond;
+            const hasAny = commonCount > 0 || goldCount > 0 || diamondCount > 0;
+            const cardData = CARDS_DATA[m.id];
+            const info = FULL_CARD_INFO[m.id];
+            
+            let cardStyleClass = '';
+            if (diamondCount > 0) cardStyleClass = 'diamond-card';
+            else if (goldCount > 0) cardStyleClass = 'gold-card';
+            
+            let rarityHtml = `<div class="brand-rarity-container"><div class="card-rarity ${info.rarityClass}">${info.rarity}</div>`;
+            if (goldCount > 0) rarityHtml += `<div class="upgrade-badge upgrade-gold">⭐ Золотая: ${goldCount}</div>`;
+            if (diamondCount > 0) rarityHtml += `<div class="upgrade-badge upgrade-diamond">💎 Алмазная: ${diamondCount}</div>`;
+            rarityHtml += `</div>`;
+            
+            html += `<div class="brand-car-card ${!hasAny ? 'locked' : ''} ${cardStyleClass}" data-model="${m.id}" data-name="${m.name}">
+                        <div class="brand-car-img">
+                            ${hasAny ? `<img src="${cardData.imgFile}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%233d2b1a%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23ddb582%22%3E🚗%3C/text%3E%3C/svg%3E';">` : '<div style="font-size:3rem;">🔒</div>'}
+                        </div>
+                        <div class="brand-car-info">
+                            <h3>${m.name}</h3>
+                            <div class="brand-tag" style="margin:5px 0;">🏭 ${cardData.brand}</div>
+                            <p style="font-size:0.8rem; margin:5px 0;">${cardData.years} | ${cardData.class} | ${cardData.type}</p>
+                            ${hasAny ? rarityHtml : '<p style="color:#999; margin-top:8px;">??? Карта не получена</p>'}
+                            <div style="font-size:0.7rem; color:#7f8c8d; margin-top:8px;">
+                                🖱️ ЛКМ - крафт | ПКМ - информация
+                            </div>
+                        </div>
+                    </div>`;
+        }
+        
+        html += `</div></div>`;
+        overlay.innerHTML = html;
+        document.body.appendChild(overlay);
+        
+        const carCards = overlay.querySelectorAll('.brand-car-card');
+        carCards.forEach(card => {
+            const modelId = card.dataset.model;
+            const carName = card.dataset.name;
+            if (!modelId) return;
+            
+            const hasAny = inventory[modelId].common > 0 || inventory[modelId].gold > 0 || inventory[modelId].diamond > 0;
+            
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (hasAny) {
+                    showCraftModal(modelId, () => refreshBrandsColors());
+                } else {
+                    showNotObtainedModal(carName);
+                }
+            });
+            
+            card.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (hasAny) {
+                    let rarityType = 'common';
+                    if (inventory[modelId]?.diamond > 0) rarityType = 'diamond';
+                    else if (inventory[modelId]?.gold > 0) rarityType = 'gold';
+                    showFullCardModal(modelId, rarityType);
+                } else {
+                    showNotObtainedModal(carName);
+                }
+                return false;
+            });
+        });
+        
+        overlay.querySelector('#backBtn').onclick = () => { overlay.remove(); currentBrandsOverlay = null; showBrandsList(); };
+        overlay.querySelector('#closeBtn').onclick = () => { overlay.remove(); currentBrandsOverlay = null; };
+    }
+
+    function setMode(mode) {
+        currentMode = mode;
+        if (mode === 'all') {
+            allSection.classList.remove('hidden');
+            collectionSection.classList.add('hidden');
+            if (testPanel) testPanel.classList.add('hidden');
+            if (testMenuBtn) testMenuBtn.style.display = 'none';
+            renderAllCards();
+        } else {
+            allSection.classList.add('hidden');
+            collectionSection.classList.remove('hidden');
+            if (mode === 'infinite') {
+                infiniteMoney = true;
+                isTestMode = false;
+                if (testPanel) testPanel.classList.add('hidden');
+                if (testMenuBtn) testMenuBtn.style.display = 'none';
+            } else if (mode === 'test') {
+                infiniteMoney = false;
+                isTestMode = true;
+                if (testPanel) testPanel.classList.remove('hidden');
+                if (testMenuBtn) testMenuBtn.style.display = 'inline-block';
+            } else {
+                infiniteMoney = false;
+                isTestMode = false;
+                if (testPanel) testPanel.classList.add('hidden');
+                if (testMenuBtn) testMenuBtn.style.display = 'none';
+            }
+            renderCollection();
+        }
+        updateUI();
+    }
+
+    function initSlotSelection() {
+        loadAllSlots();
+        
+        const slotsSelectGrid = document.getElementById('slotsSelectGrid');
+        const playAllBtn = document.getElementById('playAllBtn');
+        const playCollectionBtn = document.getElementById('playCollectionBtn');
+        const playInfiniteBtn = document.getElementById('playInfiniteBtn');
+        const playTestBtn = document.getElementById('playTestBtn');
+        
+        let selectedSlot = 0;
+        
+        function renderSlotSelection() {
+            slotsSelectGrid.innerHTML = '';
+            for (let i = 0; i < slots.length; i++) {
+                const slot = slots[i];
+                let totalCards = 0;
+                for (let model in slot.inventory) {
+                    totalCards += slot.inventory[model].common + slot.inventory[model].gold + slot.inventory[model].diamond;
+                }
+                const isSelected = (i === selectedSlot);
+                const slotDiv = document.createElement('div');
+                slotDiv.className = `slot-select-card ${isSelected ? 'selected' : ''}`;
+                slotDiv.innerHTML = `
+                    <div class="slot-select-name">💾 Слот ${i+1}</div>
+                    <div class="slot-select-info">💰 $${slot.playerMoney}<br>🃏 ${totalCards} карт</div>
+                    <div class="slot-select-buttons">
+                        <button class="small-btn clear-slot-btn" data-slot="${i}">Очистить</button>
+                        <button class="small-btn overwrite-slot-btn" data-slot="${i}">Перезаписать</button>
+                    </div>
+                `;
+                slotDiv.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('small-btn')) return;
+                    selectedSlot = i;
+                    renderSlotSelection();
+                });
+                slotsSelectGrid.appendChild(slotDiv);
+            }
+            
+            document.querySelectorAll('.clear-slot-btn').forEach(btn => {
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    const idx = parseInt(btn.dataset.slot);
+                    clearSlot(idx);
+                    renderSlotSelection();
+                };
+            });
+            document.querySelectorAll('.overwrite-slot-btn').forEach(btn => {
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    const idx = parseInt(btn.dataset.slot);
+                    let emptyInventory = {};
+                    for (let model in CARDS_DATA) {
+                        emptyInventory[model] = { common: 0, gold: 0, diamond: 0 };
+                    }
+                    if (confirm(`Перезаписать слот ${idx+1}? Текущие данные будут заменены на стандартные (500$, пустая коллекция).`)) {
+                        slots[idx] = {
+                            playerMoney: 500,
+                            infiniteMoney: false,
+                            testMode: false,
+                            achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false },
+                            inventory: emptyInventory
+                        };
+                        saveAllSlots();
+                        renderSlotSelection();
+                        alert(`Слот ${idx+1} перезаписан стандартными данными.`);
+                    }
+                };
+            });
+        }
+        
+        renderSlotSelection();
+        
+        playAllBtn.onclick = () => {
+            currentSlot = selectedSlot;
+            currentMode = 'all';
+            startGame('all');
+        };
+        
+        playCollectionBtn.onclick = () => {
+            currentSlot = selectedSlot;
+            currentMode = 'collection';
+            playerMoney = slots[selectedSlot].playerMoney;
+            infiniteMoney = slots[selectedSlot].infiniteMoney;
+            isTestMode = slots[selectedSlot].testMode || false;
+            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false };
+            inventory = JSON.parse(JSON.stringify(slots[selectedSlot].inventory));
+            startGame('collection');
+        };
+        
+        playInfiniteBtn.onclick = () => {
+            currentSlot = selectedSlot;
+            currentMode = 'infinite';
+            playerMoney = slots[selectedSlot].playerMoney;
+            infiniteMoney = true;
+            isTestMode = false;
+            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false };
+            inventory = JSON.parse(JSON.stringify(slots[selectedSlot].inventory));
+            startGame('infinite');
+        };
+        
+        playTestBtn.onclick = () => {
+            currentSlot = selectedSlot;
+            currentMode = 'test';
+            playerMoney = slots[selectedSlot].playerMoney;
+            infiniteMoney = false;
+            isTestMode = true;
+            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false };
+            inventory = JSON.parse(JSON.stringify(slots[selectedSlot].inventory));
+            startGame('test');
+        };
+    }
+    
+    function startGame(mode) {
+        document.getElementById('slotSelectScreen').classList.add('hidden');
+        document.getElementById('gameInterface').classList.remove('hidden');
+        
+        moneyDisplay = document.getElementById('moneyDisplay');
+        allSection = document.getElementById('allCardsSection');
+        collectionSection = document.getElementById('collectionSection');
+        allCardsGrid = document.getElementById('allCardsGrid');
+        collectionGrid = document.getElementById('collectionCardsGrid');
+        openPackBtn = document.getElementById('openPackBtn');
+        deliveryBtn = document.getElementById('deliveryBtn');
+        brandsBtn = document.getElementById('brandsBtn');
+        battleBtn = document.getElementById('battleBtn');
+        achievementsBtn = document.getElementById('achievementsBtn');
+        slotsContainer = document.getElementById('slotsContainer');
+        testPanel = document.getElementById('testPanel');
+        testMenuBtn = document.getElementById('testMenuBtn');
+        
+        setMode(mode);
+        renderSlotsUI();
+        
+        openPackBtn.onclick = () => buyRandomCard();
+        deliveryBtn.onclick = () => startClickerGame();
+        brandsBtn.onclick = () => showBrandsList();
+        battleBtn.onclick = () => alert("⚔️ Чтобы начать битву, нажмите кнопку 'В БИТВУ' на любой карте в коллекции!");
+        achievementsBtn.onclick = () => showAchievementsModal();
+        
+        const testAddBtn = document.getElementById('testAddCardBtn');
+        const testCraftGoldBtn = document.getElementById('testCraftGoldBtn');
+        const testCraftDiamondBtn = document.getElementById('testCraftDiamondBtn');
+        
+        if (testAddBtn) testAddBtn.onclick = () => testAddCard();
+        if (testCraftGoldBtn) testCraftGoldBtn.onclick = () => testCraftGold();
+        if (testCraftDiamondBtn) testCraftDiamondBtn.onclick = () => testCraftDiamond();
+        
+        collectionGrid.addEventListener('click', (e) => {
+            const btn = e.target.closest('.btn-sell');
+            const battle = e.target.closest('.btn-battle');
+            if (btn) {
+                e.stopPropagation();
+                const modelId = btn.dataset.model;
+                const rarityType = btn.dataset.rarity;
+                if (modelId && rarityType) {
+                    sellCard(modelId, rarityType);
+                }
+            }
+            if (battle) {
+                e.stopPropagation();
+                const modelId = battle.dataset.model;
+                const upgradeType = battle.dataset.upgrade;
+                if (modelId && upgradeType) {
+                    startBattle(modelId, upgradeType);
+                }
+            }
+        });
+        
+        gameStarted = true;
+    }
+    
+    initSlotSelection();
+</script>
+</body>
+</html>
