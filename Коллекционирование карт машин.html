@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>ККИ: Полная коллекция ВАЗ — Приора и Ветки-деревья</title>
+    <title>ККИ: Полная коллекция ВАЗ — все ветки</title>
     <style>
         * {
             box-sizing: border-box;
@@ -614,7 +614,6 @@
             margin-bottom: 10px;
         }
 
-        /* Дерево ветки */
         .branch-tree {
             display: flex;
             flex-direction: column;
@@ -827,6 +826,9 @@
                     <option value="vaz2115">ВАЗ-2115</option>
                     <option value="vaz2114">ВАЗ-2114</option>
                     <option value="vaz2113">ВАЗ-2113</option>
+                    <option value="vaz2110">Lada 110 (ВАЗ-2110)</option>
+                    <option value="vaz2111">ВАЗ-2111</option>
+                    <option value="vaz2112">ВАЗ-2112</option>
                     <option value="vaz1118">ВАЗ-1118</option>
                     <option value="vaz1119">ВАЗ-1119</option>
                     <option value="vaz1117">ВАЗ-1117</option>
@@ -868,12 +870,13 @@
 </div>
 
 <script>
-    const SAVE_KEY = 'car_collection_game_slots_v14';
+    const SAVE_KEY = 'car_collection_game_slots_v15';
 
     // ВЕТКИ С ПОРЯДКОМ МОДЕЛЕЙ
     const BRANCHES = {
         "Классические ВАЗ": { icon: "🚗", order: ["vaz2101", "vaz2102", "vaz2103", "vaz2104", "vaz2105", "vaz2106", "vaz2107"] },
         "ВАЗ Самара": { icon: "🚙", order: ["vaz2108", "vaz2109", "vaz21099", "vaz2115", "vaz2114", "vaz2113"] },
+        "ВАЗ 110": { icon: "🚘", order: ["vaz2110", "vaz2111", "vaz2112"] },
         "ВАЗ Калина": { icon: "🌾", order: ["vaz1118", "vaz1119", "vaz1117", "vaz2192", "vaz2194"] },
         "ВАЗ Приора": { icon: "⚡", order: ["vaz2170", "vaz2172", "vaz2171"] }
     };
@@ -892,14 +895,17 @@
         vaz2113: { name: "ВАЗ-2113", years: "2004–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2113 — рестайлинговая версия ВАЗ-2108.", imgFile: "ваз2113.png" },
         vaz2114: { name: "ВАЗ-2114", years: "2003–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2114 — рестайлинговая версия ВАЗ-2109.", imgFile: "ваз2114.png" },
         vaz2115: { name: "ВАЗ-2115", years: "1997–2012", class: "Седан", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2115 — рестайлинг ВАЗ-21099.", imgFile: "ваз2115.png" },
-        vaz1117: { name: "ВАЗ-1117", years: "2005–2013", class: "Хэтчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-1117 («Калина», LADA 1117) — пятидверная грузопассажирская модификация семейства LADA Kalina первого поколения. Серийное производство началось 26 апреля 2005 года.", imgFile: "ваз1117.png" },
-        vaz1118: { name: "ВАЗ-1118", years: "2004–2011", class: "Седан", type: "Легковая", rarity: "Обычная", description: "ВАЗ-1118 («Калина», LADA 1118) — четырёхдверный седан семейства LADA Kalina первого поколения. Серийное производство началось 18 ноября 2004 года.", imgFile: "ваз1118.png" },
+        vaz2110: { name: "Lada 110 (ВАЗ-2110)", years: "1995–2007", class: "Седан", type: "Легковая", rarity: "Обычная", description: "Lada 110 — четырёхдверный переднеприводной седан. Выпускался до 2014 года в Украине под брендом «Богдан».", imgFile: "ваз2110.png" },
+        vaz2111: { name: "ВАЗ-2111", years: "1998–2009", class: "Универсал", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2111 — пятидверный переднеприводный универсал на базе ВАЗ-2110.", imgFile: "ВАЗ2111.png" },
+        vaz2112: { name: "ВАЗ-2112", years: "1999–2008", class: "Хетчбэк", type: "Легковая", rarity: "Редкая", description: "ВАЗ-2112 — пятидверный хэтчбек, завершающий проект «десятого» семейства.", imgFile: "ваз2112.png" },
+        vaz1117: { name: "ВАЗ-1117", years: "2005–2013", class: "Хэтчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-1117 («Калина», LADA 1117) — пятидверная грузопассажирская модификация семейства LADA Kalina первого поколения.", imgFile: "ваз1117.png" },
+        vaz1118: { name: "ВАЗ-1118", years: "2004–2011", class: "Седан", type: "Легковая", rarity: "Обычная", description: "ВАЗ-1118 («Калина», LADA 1118) — четырёхдверный седан семейства LADA Kalina первого поколения.", imgFile: "ваз1118.png" },
         vaz1119: { name: "ВАЗ-1119", years: "2004–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-1119 («Калина», LADA 1119) — пятидверный хэтчбек семейства LADA Kalina первого поколения.", imgFile: "ваз1119.jpg" },
         vaz2192: { name: "ВАЗ-2192", years: "2013–2018", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2192 («Калина 2», LADA Kalina II) — пятидверный хэтчбек второго поколения семейства LADA Kalina.", imgFile: "ваз192.png" },
         vaz2194: { name: "ВАЗ-2194", years: "2013–2018", class: "Универсал", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2194 («Калина 2», LADA Kalina II) — пятидверный универсал второго поколения семейства LADA Kalina.", imgFile: "ваз194.png" },
         vaz2170: { name: "Lada Priora (ВАЗ-2170)", years: "2007–2018", class: "Седан", type: "Легковая", rarity: "Обычная", description: "Lada Priora — семейство рестайлинговых российских автомобилей III группы малого класса. Головная модель — седан ВАЗ-2170. Производство завершено 18 июля 2018 года.", imgFile: "ваз2170.jpg" },
-        vaz2171: { name: "ВАЗ-2171", years: "2009–2015", class: "Универсал", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2171 — универсал модели LADA Priora. Серийное производство началось 27 мая 2009 года. Выпускался до 2015 года.", imgFile: "ваз-2171.jpg" },
-        vaz2172: { name: "ВАЗ-2172", years: "2008–2015", class: "Хетчбэк", type: "Легковая", rarity: "Редкая", description: "ВАЗ-2172 — хэтчбек Lada Priora. Создан на базе седана, глубокая модернизация ВАЗ-2112. Серийное производство — с февраля 2008 года.", imgFile: "ваз2172.jpg" }
+        vaz2171: { name: "ВАЗ-2171", years: "2009–2015", class: "Универсал", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2171 — универсал модели LADA Priora. Серийное производство началось 27 мая 2009 года.", imgFile: "ваз-2171.jpg" },
+        vaz2172: { name: "ВАЗ-2172", years: "2008–2015", class: "Хетчбэк", type: "Легковая", rarity: "Редкая", description: "ВАЗ-2172 — хэтчбек Lada Priora. Создан на базе седана, глубокая модернизация ВАЗ-2112.", imgFile: "ваз2172.jpg" }
     };
 
     const CARDS_DATA = {
@@ -916,6 +922,9 @@
         vaz2115: { id: "vaz2115", name: "ВАЗ-2115", brand: "АвтоВАЗ", branch: "ВАЗ Самара", years: "1997–2012", class: "Седан", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2115.png" },
         vaz2114: { id: "vaz2114", name: "ВАЗ-2114", brand: "АвтоВАЗ", branch: "ВАЗ Самара", years: "2003–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2114.png" },
         vaz2113: { id: "vaz2113", name: "ВАЗ-2113", brand: "АвтоВАЗ", branch: "ВАЗ Самара", years: "2004–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2113.png" },
+        vaz2110: { id: "vaz2110", name: "Lada 110 (ВАЗ-2110)", brand: "АвтоВАЗ", branch: "ВАЗ 110", years: "1995–2007", class: "Седан", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2110.png" },
+        vaz2111: { id: "vaz2111", name: "ВАЗ-2111", brand: "АвтоВАЗ", branch: "ВАЗ 110", years: "1998–2009", class: "Универсал", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ВАЗ2111.png" },
+        vaz2112: { id: "vaz2112", name: "ВАЗ-2112", brand: "АвтоВАЗ", branch: "ВАЗ 110", years: "1999–2008", class: "Хетчбэк", type: "Легковая", rarity: "Редкая", rarityKey: "rare", rarityClass: "rarity-rare", sellPrice: 75, buyPrice: 150, colorClass: "card-rare", imgFile: "ваз2112.png" },
         vaz1117: { id: "vaz1117", name: "ВАЗ-1117", brand: "АвтоВАЗ", branch: "ВАЗ Калина", years: "2005–2013", class: "Хэтчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз1117.png" },
         vaz1118: { id: "vaz1118", name: "ВАЗ-1118", brand: "АвтоВАЗ", branch: "ВАЗ Калина", years: "2004–2011", class: "Седан", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз1118.png" },
         vaz1119: { id: "vaz1119", name: "ВАЗ-1119", brand: "АвтоВАЗ", branch: "ВАЗ Калина", years: "2004–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз1119.jpg" },
@@ -936,6 +945,7 @@
         diamondAvtovaz: false,
         branchClassic: false,
         branchSamara: false,
+        branch110: false,
         branchKalina: false,
         branchPriora: false
     };
@@ -950,6 +960,7 @@
         { id: "diamondAvtovaz", title: "АЛМАЗНЫЙ АВТОВАЗ!", desc: "Соберите все алмазные карты всех моделей АвтоВАЗа", icon: "💎🏭" },
         { id: "branchClassic", title: "КЛАССИЧЕСКИЕ ВАЗ!", desc: "Соберите все машины ветки «Классические ВАЗ» (7 моделей)", icon: "🚗📜" },
         { id: "branchSamara", title: "ВАЗ САМАРА!", desc: "Соберите все машины ветки «ВАЗ Самара» (6 моделей)", icon: "🚙📜" },
+        { id: "branch110", title: "ВАЗ 110!", desc: "Соберите все машины ветки «ВАЗ 110» (3 модели)", icon: "🚘📜" },
         { id: "branchKalina", title: "ВАЗ КАЛИНА!", desc: "Соберите все машины ветки «ВАЗ Калина» (5 моделей)", icon: "🌾📜" },
         { id: "branchPriora", title: "ВАЗ ПРИОРА!", desc: "Соберите все машины ветки «ВАЗ Приора» (3 модели)", icon: "⚡📜" }
     ];
@@ -1004,12 +1015,14 @@
         
         let branchClassicCount = 0;
         let branchSamaraCount = 0;
+        let branch110Count = 0;
         let branchKalinaCount = 0;
         let branchPrioraCount = 0;
         
         const requiredModels = Object.keys(CARDS_DATA).length;
         const classicModels = BRANCHES["Классические ВАЗ"].order.length;
         const samaraModels = BRANCHES["ВАЗ Самара"].order.length;
+        const branch110Models = BRANCHES["ВАЗ 110"].order.length;
         const kalinaModels = BRANCHES["ВАЗ Калина"].order.length;
         const prioraModels = BRANCHES["ВАЗ Приора"].order.length;
 
@@ -1029,6 +1042,7 @@
             if (hasAny) {
                 if (branch === "Классические ВАЗ") branchClassicCount++;
                 else if (branch === "ВАЗ Самара") branchSamaraCount++;
+                else if (branch === "ВАЗ 110") branch110Count++;
                 else if (branch === "ВАЗ Калина") branchKalinaCount++;
                 else if (branch === "ВАЗ Приора") branchPrioraCount++;
             }
@@ -1092,6 +1106,12 @@
             saveAllSlots();
         }
 
+        if (!achievements.branch110 && branch110Count >= branch110Models) {
+            achievements.branch110 = true;
+            showAchievement("ВАЗ 110!", "Вы собрали все машины ветки «ВАЗ 110» (3 модели)!");
+            saveAllSlots();
+        }
+
         if (!achievements.branchKalina && branchKalinaCount >= kalinaModels) {
             achievements.branchKalina = true;
             showAchievement("ВАЗ КАЛИНА!", "Вы собрали все машины ветки «ВАЗ Калина» (5 моделей)!");
@@ -1106,11 +1126,11 @@
     }
 
     let slots = [
-        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false }, inventory: {} },
-        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false }, inventory: {} },
-        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false }, inventory: {} },
-        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false }, inventory: {} },
-        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false }, inventory: {} }
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false, branchPriora: false }, inventory: {} },
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false, branchPriora: false }, inventory: {} },
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false, branchPriora: false }, inventory: {} },
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false, branchPriora: false }, inventory: {} },
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false, branchPriora: false }, inventory: {} }
     ];
 
     for (let i = 0; i < slots.length; i++) {
@@ -1181,7 +1201,7 @@
         playerMoney = slots[currentSlot].playerMoney;
         infiniteMoney = slots[currentSlot].infiniteMoney;
         isTestMode = slots[currentSlot].testMode || false;
-        achievements = slots[currentSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false };
+        achievements = slots[currentSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false, branchPriora: false };
         inventory = JSON.parse(JSON.stringify(slots[currentSlot].inventory));
         
         setMode(mode);
@@ -1227,7 +1247,7 @@
                 playerMoney: 500,
                 infiniteMoney: false,
                 testMode: false,
-                achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false },
+                achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false, branchPriora: false },
                 inventory: emptyInventory
             };
             saveAllSlots();
@@ -1236,7 +1256,7 @@
                 playerMoney = slots[currentSlot].playerMoney;
                 infiniteMoney = slots[currentSlot].infiniteMoney;
                 isTestMode = slots[currentSlot].testMode || false;
-                achievements = slots[currentSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false };
+                achievements = slots[currentSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false, branchPriora: false };
                 inventory = JSON.parse(JSON.stringify(slots[currentSlot].inventory));
                 updateUI();
             }
@@ -1660,13 +1680,16 @@
         else if (rand < 0.39) randomModel = 'vaz2115';
         else if (rand < 0.425) randomModel = 'vaz2114';
         else if (rand < 0.46) randomModel = 'vaz2113';
-        else if (rand < 0.495) randomModel = 'vaz1118';
-        else if (rand < 0.53) randomModel = 'vaz1119';
-        else if (rand < 0.565) randomModel = 'vaz1117';
-        else if (rand < 0.6) randomModel = 'vaz2192';
-        else if (rand < 0.635) randomModel = 'vaz2194';
-        else if (rand < 0.67) randomModel = 'vaz2170';
-        else if (rand < 0.705) randomModel = 'vaz2172';
+        else if (rand < 0.495) randomModel = 'vaz2110';
+        else if (rand < 0.53) randomModel = 'vaz2111';
+        else if (rand < 0.565) randomModel = 'vaz2112';
+        else if (rand < 0.6) randomModel = 'vaz1118';
+        else if (rand < 0.635) randomModel = 'vaz1119';
+        else if (rand < 0.67) randomModel = 'vaz1117';
+        else if (rand < 0.705) randomModel = 'vaz2192';
+        else if (rand < 0.74) randomModel = 'vaz2194';
+        else if (rand < 0.775) randomModel = 'vaz2170';
+        else if (rand < 0.81) randomModel = 'vaz2172';
         else randomModel = 'vaz2171';
         
         const card = CARDS_DATA[randomModel];
@@ -2088,7 +2111,7 @@
                             playerMoney: 500,
                             infiniteMoney: false,
                             testMode: false,
-                            achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false },
+                            achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false, branchPriora: false },
                             inventory: emptyInventory
                         };
                         saveAllSlots();
@@ -2113,7 +2136,7 @@
             playerMoney = slots[selectedSlot].playerMoney;
             infiniteMoney = slots[selectedSlot].infiniteMoney;
             isTestMode = slots[selectedSlot].testMode || false;
-            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false };
+            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false, branchPriora: false };
             inventory = JSON.parse(JSON.stringify(slots[selectedSlot].inventory));
             startGame('collection');
         };
@@ -2124,7 +2147,7 @@
             playerMoney = slots[selectedSlot].playerMoney;
             infiniteMoney = true;
             isTestMode = false;
-            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false };
+            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false, branchPriora: false };
             inventory = JSON.parse(JSON.stringify(slots[selectedSlot].inventory));
             startGame('infinite');
         };
@@ -2135,7 +2158,7 @@
             playerMoney = slots[selectedSlot].playerMoney;
             infiniteMoney = false;
             isTestMode = true;
-            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false };
+            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false, branchPriora: false };
             inventory = JSON.parse(JSON.stringify(slots[selectedSlot].inventory));
             startGame('test');
         };
