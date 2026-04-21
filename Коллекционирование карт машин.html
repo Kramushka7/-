@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>ККИ: Полная коллекция ВАЗ — Калина</title>
+    <title>ККИ: Полная коллекция ВАЗ — Приора и Ветки-деревья</title>
     <style>
         * {
             box-sizing: border-box;
@@ -614,14 +614,23 @@
             margin-bottom: 10px;
         }
 
-        .brand-cars-grid, .branch-cars-grid {
+        /* Дерево ветки */
+        .branch-tree {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin: 20px 0;
         }
 
-        .brand-car-card, .branch-car-card {
+        .tree-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .tree-node-content {
             background: white;
             border-radius: 24px;
             width: 300px;
@@ -629,23 +638,35 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             cursor: pointer;
             transition: 0.1s;
+            position: relative;
+            z-index: 2;
         }
 
-        .brand-car-card:hover, .branch-car-card:hover {
+        .tree-node-content:hover {
             transform: scale(1.02);
         }
 
-        .brand-car-card.locked, .branch-car-card.locked { 
-            opacity: 0.6; 
-            filter: grayscale(0.3); 
-            cursor: pointer; 
-        }
-        .brand-car-card.locked:hover, .branch-car-card.locked:hover { 
-            transform: scale(1.02);
-            opacity: 0.8;
+        .tree-node-content.locked {
+            opacity: 0.6;
+            filter: grayscale(0.3);
         }
 
-        .brand-car-img, .branch-car-img {
+        .tree-connector {
+            width: 2px;
+            height: 30px;
+            background: #bc874a;
+            margin: 5px 0;
+        }
+
+        .tree-node:not(:last-child) .tree-connector {
+            display: block;
+        }
+
+        .tree-node:last-child .tree-connector {
+            display: none;
+        }
+
+        .branch-car-img {
             background: #2b281f;
             height: 140px;
             display: flex;
@@ -653,27 +674,27 @@
             justify-content: center;
         }
 
-        .brand-car-img img, .branch-car-img img {
+        .branch-car-img img {
             max-width: 90%;
             max-height: 110px;
         }
 
-        .brand-car-info, .branch-car-info {
+        .branch-car-info {
             padding: 15px;
             text-align: center;
         }
 
-        .brand-car-card.gold-card, .branch-car-card.gold-card {
+        .branch-car-card.gold-card, .tree-node-content.gold-card {
             background: linear-gradient(135deg, #fff8e7, #ffe4a0);
             border: 2px solid #f39c12;
         }
 
-        .brand-car-card.diamond-card, .branch-car-card.diamond-card {
+        .branch-car-card.diamond-card, .tree-node-content.diamond-card {
             background: linear-gradient(135deg, #e8f4fd, #b8dcf8);
             border: 2px solid #3498db;
         }
 
-        .brand-rarity-container, .branch-rarity-container {
+        .branch-rarity-container {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
@@ -803,17 +824,17 @@
                     <option value="vaz2108">ВАЗ-2108</option>
                     <option value="vaz2109">ВАЗ-2109</option>
                     <option value="vaz21099">ВАЗ-21099</option>
-                    <option value="vaz2113">ВАЗ-2113</option>
-                    <option value="vaz2114">ВАЗ-2114</option>
                     <option value="vaz2115">ВАЗ-2115</option>
-                    <option value="vaz2110">Lada 110 (ВАЗ-2110)</option>
-                    <option value="vaz2111">ВАЗ-2111</option>
-                    <option value="vaz2112">ВАЗ-2112</option>
-                    <option value="vaz1117">ВАЗ-1117</option>
+                    <option value="vaz2114">ВАЗ-2114</option>
+                    <option value="vaz2113">ВАЗ-2113</option>
                     <option value="vaz1118">ВАЗ-1118</option>
                     <option value="vaz1119">ВАЗ-1119</option>
+                    <option value="vaz1117">ВАЗ-1117</option>
                     <option value="vaz2192">ВАЗ-2192</option>
                     <option value="vaz2194">ВАЗ-2194</option>
+                    <option value="vaz2170">Lada Priora (ВАЗ-2170)</option>
+                    <option value="vaz2172">ВАЗ-2172</option>
+                    <option value="vaz2171">ВАЗ-2171</option>
                 </select>
                 <select id="testRaritySelect" class="test-select">
                     <option value="common">Обычная</option>
@@ -847,13 +868,14 @@
 </div>
 
 <script>
-    const SAVE_KEY = 'car_collection_game_slots_v13';
+    const SAVE_KEY = 'car_collection_game_slots_v14';
 
+    // ВЕТКИ С ПОРЯДКОМ МОДЕЛЕЙ
     const BRANCHES = {
-        "Классические ВАЗ": { img: "classic.png", icon: "🚗", models: ["vaz2101", "vaz2102", "vaz2103", "vaz2104", "vaz2105", "vaz2106", "vaz2107"] },
-        "ВАЗ Самара": { img: "samara.png", icon: "🚙", models: ["vaz2108", "vaz2109", "vaz21099", "vaz2113", "vaz2114", "vaz2115"] },
-        "ВАЗ 110": { img: "vaz110.png", icon: "🚘", models: ["vaz2110", "vaz2111", "vaz2112"] },
-        "ВАЗ Калина": { img: "kalina.png", icon: "🌾", models: ["vaz1117", "vaz1118", "vaz1119", "vaz2192", "vaz2194"] }
+        "Классические ВАЗ": { icon: "🚗", order: ["vaz2101", "vaz2102", "vaz2103", "vaz2104", "vaz2105", "vaz2106", "vaz2107"] },
+        "ВАЗ Самара": { icon: "🚙", order: ["vaz2108", "vaz2109", "vaz21099", "vaz2115", "vaz2114", "vaz2113"] },
+        "ВАЗ Калина": { icon: "🌾", order: ["vaz1118", "vaz1119", "vaz1117", "vaz2192", "vaz2194"] },
+        "ВАЗ Приора": { icon: "⚡", order: ["vaz2170", "vaz2172", "vaz2171"] }
     };
 
     const FULL_CARD_INFO = {
@@ -870,14 +892,14 @@
         vaz2113: { name: "ВАЗ-2113", years: "2004–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2113 — рестайлинговая версия ВАЗ-2108.", imgFile: "ваз2113.png" },
         vaz2114: { name: "ВАЗ-2114", years: "2003–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2114 — рестайлинговая версия ВАЗ-2109.", imgFile: "ваз2114.png" },
         vaz2115: { name: "ВАЗ-2115", years: "1997–2012", class: "Седан", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2115 — рестайлинг ВАЗ-21099.", imgFile: "ваз2115.png" },
-        vaz2110: { name: "Lada 110 (ВАЗ-2110)", years: "1995–2007", class: "Седан", type: "Легковая", rarity: "Обычная", description: "Lada 110 — четырёхдверный переднеприводной седан. Выпускался до 2014 года в Украине под брендом «Богдан».", imgFile: "ваз2110.png" },
-        vaz2111: { name: "ВАЗ-2111", years: "1998–2009", class: "Универсал", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2111 — пятидверный переднеприводный универсал на базе ВАЗ-2110.", imgFile: "ВАЗ2111.png" },
-        vaz2112: { name: "ВАЗ-2112", years: "1999–2008", class: "Хетчбэк", type: "Легковая", rarity: "Редкая", description: "ВАЗ-2112 — пятидверный хэтчбек, завершающий проект «десятого» семейства.", imgFile: "ваз2112.png" },
-        vaz1117: { name: "ВАЗ-1117", years: "2005–2013", class: "Хэтчбек", type: "Легковая", rarity: "Обычная", description: "ВАЗ-1117 («Калина», LADA 1117) — пятидверная грузопассажирская модификация семейства LADA Kalina первого поколения. Серийное производство началось 26 апреля 2005 года.", imgFile: "ваз1117.png" },
+        vaz1117: { name: "ВАЗ-1117", years: "2005–2013", class: "Хэтчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-1117 («Калина», LADA 1117) — пятидверная грузопассажирская модификация семейства LADA Kalina первого поколения. Серийное производство началось 26 апреля 2005 года.", imgFile: "ваз1117.png" },
         vaz1118: { name: "ВАЗ-1118", years: "2004–2011", class: "Седан", type: "Легковая", rarity: "Обычная", description: "ВАЗ-1118 («Калина», LADA 1118) — четырёхдверный седан семейства LADA Kalina первого поколения. Серийное производство началось 18 ноября 2004 года.", imgFile: "ваз1118.png" },
-        vaz1119: { name: "ВАЗ-1119", years: "2004–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-1119 («Калина», LADA 1119) — пятидверный хэтчбек семейства LADA Kalina первого поколения. Выпускался также в трёхдверной версии ВАЗ-11193.", imgFile: "ваз1119.jpg" },
-        vaz2192: { name: "ВАЗ-2192", years: "2013–2018", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2192 («Калина 2», LADA Kalina II) — пятидверный хэтчбек второго поколения семейства LADA Kalina. Производство началось 16 мая 2013 года.", imgFile: "ваз192.png" },
-        vaz2194: { name: "ВАЗ-2194", years: "2013–2018", class: "Универсал", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2194 («Калина 2», LADA Kalina II) — пятидверный универсал второго поколения семейства LADA Kalina. Производство началось 16 мая 2013 года.", imgFile: "ваз194.png" }
+        vaz1119: { name: "ВАЗ-1119", years: "2004–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-1119 («Калина», LADA 1119) — пятидверный хэтчбек семейства LADA Kalina первого поколения.", imgFile: "ваз1119.jpg" },
+        vaz2192: { name: "ВАЗ-2192", years: "2013–2018", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2192 («Калина 2», LADA Kalina II) — пятидверный хэтчбек второго поколения семейства LADA Kalina.", imgFile: "ваз192.png" },
+        vaz2194: { name: "ВАЗ-2194", years: "2013–2018", class: "Универсал", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2194 («Калина 2», LADA Kalina II) — пятидверный универсал второго поколения семейства LADA Kalina.", imgFile: "ваз194.png" },
+        vaz2170: { name: "Lada Priora (ВАЗ-2170)", years: "2007–2018", class: "Седан", type: "Легковая", rarity: "Обычная", description: "Lada Priora — семейство рестайлинговых российских автомобилей III группы малого класса. Головная модель — седан ВАЗ-2170. Производство завершено 18 июля 2018 года.", imgFile: "ваз2170.jpg" },
+        vaz2171: { name: "ВАЗ-2171", years: "2009–2015", class: "Универсал", type: "Легковая", rarity: "Обычная", description: "ВАЗ-2171 — универсал модели LADA Priora. Серийное производство началось 27 мая 2009 года. Выпускался до 2015 года.", imgFile: "ваз-2171.jpg" },
+        vaz2172: { name: "ВАЗ-2172", years: "2008–2015", class: "Хетчбэк", type: "Легковая", rarity: "Редкая", description: "ВАЗ-2172 — хэтчбек Lada Priora. Создан на базе седана, глубокая модернизация ВАЗ-2112. Серийное производство — с февраля 2008 года.", imgFile: "ваз2172.jpg" }
     };
 
     const CARDS_DATA = {
@@ -891,17 +913,17 @@
         vaz2108: { id: "vaz2108", name: "ВАЗ-2108", brand: "АвтоВАЗ", branch: "ВАЗ Самара", years: "1984–2004", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2108.png" },
         vaz2109: { id: "vaz2109", name: "ВАЗ-2109", brand: "АвтоВАЗ", branch: "ВАЗ Самара", years: "1987–2011", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2109.png" },
         vaz21099: { id: "vaz21099", name: "ВАЗ-21099", brand: "АвтоВАЗ", branch: "ВАЗ Самара", years: "1990–2011", class: "Седан", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз21099.png" },
-        vaz2113: { id: "vaz2113", name: "ВАЗ-2113", brand: "АвтоВАЗ", branch: "ВАЗ Самара", years: "2004–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2113.png" },
-        vaz2114: { id: "vaz2114", name: "ВАЗ-2114", brand: "АвтоВАЗ", branch: "ВАЗ Самара", years: "2003–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2114.png" },
         vaz2115: { id: "vaz2115", name: "ВАЗ-2115", brand: "АвтоВАЗ", branch: "ВАЗ Самара", years: "1997–2012", class: "Седан", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2115.png" },
-        vaz2110: { id: "vaz2110", name: "Lada 110 (ВАЗ-2110)", brand: "АвтоВАЗ", branch: "ВАЗ 110", years: "1995–2007", class: "Седан", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2110.png" },
-        vaz2111: { id: "vaz2111", name: "ВАЗ-2111", brand: "АвтоВАЗ", branch: "ВАЗ 110", years: "1998–2009", class: "Универсал", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ВАЗ2111.png" },
-        vaz2112: { id: "vaz2112", name: "ВАЗ-2112", brand: "АвтоВАЗ", branch: "ВАЗ 110", years: "1999–2008", class: "Хетчбэк", type: "Легковая", rarity: "Редкая", rarityKey: "rare", rarityClass: "rarity-rare", sellPrice: 75, buyPrice: 150, colorClass: "card-rare", imgFile: "ваз2112.png" },
+        vaz2114: { id: "vaz2114", name: "ВАЗ-2114", brand: "АвтоВАЗ", branch: "ВАЗ Самара", years: "2003–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2114.png" },
+        vaz2113: { id: "vaz2113", name: "ВАЗ-2113", brand: "АвтоВАЗ", branch: "ВАЗ Самара", years: "2004–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2113.png" },
         vaz1117: { id: "vaz1117", name: "ВАЗ-1117", brand: "АвтоВАЗ", branch: "ВАЗ Калина", years: "2005–2013", class: "Хэтчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз1117.png" },
         vaz1118: { id: "vaz1118", name: "ВАЗ-1118", brand: "АвтоВАЗ", branch: "ВАЗ Калина", years: "2004–2011", class: "Седан", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз1118.png" },
         vaz1119: { id: "vaz1119", name: "ВАЗ-1119", brand: "АвтоВАЗ", branch: "ВАЗ Калина", years: "2004–2013", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз1119.jpg" },
         vaz2192: { id: "vaz2192", name: "ВАЗ-2192", brand: "АвтоВАЗ", branch: "ВАЗ Калина", years: "2013–2018", class: "Хетчбэк", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз192.png" },
-        vaz2194: { id: "vaz2194", name: "ВАЗ-2194", brand: "АвтоВАЗ", branch: "ВАЗ Калина", years: "2013–2018", class: "Универсал", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз194.png" }
+        vaz2194: { id: "vaz2194", name: "ВАЗ-2194", brand: "АвтоВАЗ", branch: "ВАЗ Калина", years: "2013–2018", class: "Универсал", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз194.png" },
+        vaz2170: { id: "vaz2170", name: "Lada Priora (ВАЗ-2170)", brand: "АвтоВАЗ", branch: "ВАЗ Приора", years: "2007–2018", class: "Седан", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз2170.jpg" },
+        vaz2171: { id: "vaz2171", name: "ВАЗ-2171", brand: "АвтоВАЗ", branch: "ВАЗ Приора", years: "2009–2015", class: "Универсал", type: "Легковая", rarity: "Обычная", rarityKey: "common", rarityClass: "rarity-common", sellPrice: 50, buyPrice: 100, colorClass: "card-common", imgFile: "ваз-2171.jpg" },
+        vaz2172: { id: "vaz2172", name: "ВАЗ-2172", brand: "АвтоВАЗ", branch: "ВАЗ Приора", years: "2008–2015", class: "Хетчбэк", type: "Легковая", rarity: "Редкая", rarityKey: "rare", rarityClass: "rarity-rare", sellPrice: 75, buyPrice: 150, colorClass: "card-rare", imgFile: "ваз2172.jpg" }
     };
 
     let achievements = {
@@ -914,8 +936,8 @@
         diamondAvtovaz: false,
         branchClassic: false,
         branchSamara: false,
-        branch110: false,
-        branchKalina: false
+        branchKalina: false,
+        branchPriora: false
     };
 
     const achievementsList = [
@@ -923,13 +945,13 @@
         { id: "firstRare", title: "ПЕРВАЯ РЕДКАЯ МАШИНА!", desc: "Получите редкую карту в коллекцию", icon: "🔵" },
         { id: "goldCar", title: "ЗОЛОТАЯ МАШИНА!", desc: "Создайте или получите золотую карту", icon: "⭐" },
         { id: "diamondCar", title: "АЛМАЗНАЯ МАШИНА!", desc: "Создайте или получите алмазную карту", icon: "💎" },
-        { id: "allAvtovaz", title: "ВСЕ МАШИНЫ АВТОВАЗА!", desc: "Соберите полную коллекцию АвтоВАЗа (21 модель)", icon: "🏭" },
+        { id: "allAvtovaz", title: "ВСЕ МАШИНЫ АВТОВАЗА!", desc: "Соберите полную коллекцию АвтоВАЗа (24 модели)", icon: "🏭" },
         { id: "goldAvtovaz", title: "ЗОЛОТОЙ АВТОВАЗ!", desc: "Соберите все золотые карты всех моделей АвтоВАЗа", icon: "⭐🏭" },
         { id: "diamondAvtovaz", title: "АЛМАЗНЫЙ АВТОВАЗ!", desc: "Соберите все алмазные карты всех моделей АвтоВАЗа", icon: "💎🏭" },
         { id: "branchClassic", title: "КЛАССИЧЕСКИЕ ВАЗ!", desc: "Соберите все машины ветки «Классические ВАЗ» (7 моделей)", icon: "🚗📜" },
         { id: "branchSamara", title: "ВАЗ САМАРА!", desc: "Соберите все машины ветки «ВАЗ Самара» (6 моделей)", icon: "🚙📜" },
-        { id: "branch110", title: "ВАЗ 110!", desc: "Соберите все машины ветки «ВАЗ 110» (3 модели)", icon: "🚘📜" },
-        { id: "branchKalina", title: "ВАЗ КАЛИНА!", desc: "Соберите все машины ветки «ВАЗ Калина» (5 моделей)", icon: "🌾📜" }
+        { id: "branchKalina", title: "ВАЗ КАЛИНА!", desc: "Соберите все машины ветки «ВАЗ Калина» (5 моделей)", icon: "🌾📜" },
+        { id: "branchPriora", title: "ВАЗ ПРИОРА!", desc: "Соберите все машины ветки «ВАЗ Приора» (3 модели)", icon: "⚡📜" }
     ];
 
     function showAchievement(title, description) {
@@ -982,14 +1004,14 @@
         
         let branchClassicCount = 0;
         let branchSamaraCount = 0;
-        let branch110Count = 0;
         let branchKalinaCount = 0;
+        let branchPrioraCount = 0;
         
         const requiredModels = Object.keys(CARDS_DATA).length;
-        const classicModels = BRANCHES["Классические ВАЗ"].models.length;
-        const samaraModels = BRANCHES["ВАЗ Самара"].models.length;
-        const branch110Models = BRANCHES["ВАЗ 110"].models.length;
-        const branchKalinaModels = BRANCHES["ВАЗ Калина"].models.length;
+        const classicModels = BRANCHES["Классические ВАЗ"].order.length;
+        const samaraModels = BRANCHES["ВАЗ Самара"].order.length;
+        const kalinaModels = BRANCHES["ВАЗ Калина"].order.length;
+        const prioraModels = BRANCHES["ВАЗ Приора"].order.length;
 
         for (let model in inventory) {
             const common = inventory[model].common;
@@ -1007,8 +1029,8 @@
             if (hasAny) {
                 if (branch === "Классические ВАЗ") branchClassicCount++;
                 else if (branch === "ВАЗ Самара") branchSamaraCount++;
-                else if (branch === "ВАЗ 110") branch110Count++;
                 else if (branch === "ВАЗ Калина") branchKalinaCount++;
+                else if (branch === "ВАЗ Приора") branchPrioraCount++;
             }
             
             if (CARDS_DATA[model]?.rarity === "Редкая" && common > 0) rareCount += common;
@@ -1042,7 +1064,7 @@
 
         if (!achievements.allAvtovaz && avtovazModels >= requiredModels) {
             achievements.allAvtovaz = true;
-            showAchievement("ВСЕ МАШИНЫ АВТОВАЗА!", "Вы собрали полную коллекцию АвтоВАЗа (21 модель)!");
+            showAchievement("ВСЕ МАШИНЫ АВТОВАЗА!", "Вы собрали полную коллекцию АвтоВАЗа (24 модели)!");
             saveAllSlots();
         }
 
@@ -1070,25 +1092,25 @@
             saveAllSlots();
         }
 
-        if (!achievements.branch110 && branch110Count >= branch110Models) {
-            achievements.branch110 = true;
-            showAchievement("ВАЗ 110!", "Вы собрали все машины ветки «ВАЗ 110» (3 модели)!");
+        if (!achievements.branchKalina && branchKalinaCount >= kalinaModels) {
+            achievements.branchKalina = true;
+            showAchievement("ВАЗ КАЛИНА!", "Вы собрали все машины ветки «ВАЗ Калина» (5 моделей)!");
             saveAllSlots();
         }
 
-        if (!achievements.branchKalina && branchKalinaCount >= branchKalinaModels) {
-            achievements.branchKalina = true;
-            showAchievement("ВАЗ КАЛИНА!", "Вы собрали все машины ветки «ВАЗ Калина» (5 моделей)!");
+        if (!achievements.branchPriora && branchPrioraCount >= prioraModels) {
+            achievements.branchPriora = true;
+            showAchievement("ВАЗ ПРИОРА!", "Вы собрали все машины ветки «ВАЗ Приора» (3 модели)!");
             saveAllSlots();
         }
     }
 
     let slots = [
-        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false }, inventory: {} },
-        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false }, inventory: {} },
-        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false }, inventory: {} },
-        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false }, inventory: {} },
-        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false }, inventory: {} }
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false }, inventory: {} },
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false }, inventory: {} },
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false }, inventory: {} },
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false }, inventory: {} },
+        { playerMoney: 500, infiniteMoney: false, testMode: false, achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false }, inventory: {} }
     ];
 
     for (let i = 0; i < slots.length; i++) {
@@ -1159,7 +1181,7 @@
         playerMoney = slots[currentSlot].playerMoney;
         infiniteMoney = slots[currentSlot].infiniteMoney;
         isTestMode = slots[currentSlot].testMode || false;
-        achievements = slots[currentSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false };
+        achievements = slots[currentSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false };
         inventory = JSON.parse(JSON.stringify(slots[currentSlot].inventory));
         
         setMode(mode);
@@ -1205,7 +1227,7 @@
                 playerMoney: 500,
                 infiniteMoney: false,
                 testMode: false,
-                achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false },
+                achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false },
                 inventory: emptyInventory
             };
             saveAllSlots();
@@ -1214,7 +1236,7 @@
                 playerMoney = slots[currentSlot].playerMoney;
                 infiniteMoney = slots[currentSlot].infiniteMoney;
                 isTestMode = slots[currentSlot].testMode || false;
-                achievements = slots[currentSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false };
+                achievements = slots[currentSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false };
                 inventory = JSON.parse(JSON.stringify(slots[currentSlot].inventory));
                 updateUI();
             }
@@ -1313,7 +1335,7 @@
 
     function refreshBranchesColors() {
         if (!currentBranchesOverlay || !currentBranchesOverlay.isConnected) return;
-        const carCards = currentBranchesOverlay.querySelectorAll('.branch-car-card');
+        const carCards = currentBranchesOverlay.querySelectorAll('.tree-node-content');
         carCards.forEach(card => {
             const modelId = card.dataset.model;
             if (modelId && inventory[modelId]) {
@@ -1625,27 +1647,27 @@
         
         const rand = Math.random();
         let randomModel;
-        if (rand < 0.045) randomModel = 'vaz2101';
-        else if (rand < 0.08) randomModel = 'vaz2102';
-        else if (rand < 0.115) randomModel = 'vaz2103';
-        else if (rand < 0.15) randomModel = 'vaz2104';
-        else if (rand < 0.185) randomModel = 'vaz2105';
-        else if (rand < 0.22) randomModel = 'vaz2106';
-        else if (rand < 0.255) randomModel = 'vaz2107';
-        else if (rand < 0.29) randomModel = 'vaz2108';
-        else if (rand < 0.325) randomModel = 'vaz2109';
-        else if (rand < 0.36) randomModel = 'vaz21099';
-        else if (rand < 0.395) randomModel = 'vaz2113';
-        else if (rand < 0.43) randomModel = 'vaz2114';
-        else if (rand < 0.465) randomModel = 'vaz2115';
-        else if (rand < 0.5) randomModel = 'vaz2110';
-        else if (rand < 0.535) randomModel = 'vaz2111';
-        else if (rand < 0.57) randomModel = 'vaz2112';
-        else if (rand < 0.605) randomModel = 'vaz1117';
-        else if (rand < 0.64) randomModel = 'vaz1118';
-        else if (rand < 0.675) randomModel = 'vaz1119';
-        else if (rand < 0.71) randomModel = 'vaz2192';
-        else randomModel = 'vaz2194';
+        if (rand < 0.04) randomModel = 'vaz2101';
+        else if (rand < 0.075) randomModel = 'vaz2102';
+        else if (rand < 0.11) randomModel = 'vaz2103';
+        else if (rand < 0.145) randomModel = 'vaz2104';
+        else if (rand < 0.18) randomModel = 'vaz2105';
+        else if (rand < 0.215) randomModel = 'vaz2106';
+        else if (rand < 0.25) randomModel = 'vaz2107';
+        else if (rand < 0.285) randomModel = 'vaz2108';
+        else if (rand < 0.32) randomModel = 'vaz2109';
+        else if (rand < 0.355) randomModel = 'vaz21099';
+        else if (rand < 0.39) randomModel = 'vaz2115';
+        else if (rand < 0.425) randomModel = 'vaz2114';
+        else if (rand < 0.46) randomModel = 'vaz2113';
+        else if (rand < 0.495) randomModel = 'vaz1118';
+        else if (rand < 0.53) randomModel = 'vaz1119';
+        else if (rand < 0.565) randomModel = 'vaz1117';
+        else if (rand < 0.6) randomModel = 'vaz2192';
+        else if (rand < 0.635) randomModel = 'vaz2194';
+        else if (rand < 0.67) randomModel = 'vaz2170';
+        else if (rand < 0.705) randomModel = 'vaz2172';
+        else randomModel = 'vaz2171';
         
         const card = CARDS_DATA[randomModel];
         spendMoney(card.buyPrice);
@@ -1874,16 +1896,16 @@
             html += `<div class="branch-item" data-branch="${name}">
                         <div style="font-size:3rem;">${branch.icon}</div>
                         <h3>${name}</h3>
-                        <p>${branch.models.length} моделей</p>
+                        <p>${branch.order.length} моделей</p>
                     </div>`;
         }
         html += `</div></div>`;
         overlay.innerHTML = html; document.body.appendChild(overlay);
-        overlay.querySelectorAll('.branch-item').forEach(el => el.onclick = () => { overlay.remove(); showBranchCars(el.dataset.branch); });
+        overlay.querySelectorAll('.branch-item').forEach(el => el.onclick = () => { overlay.remove(); showBranchTree(el.dataset.branch); });
         overlay.querySelector('#closeBtn').onclick = () => overlay.remove();
     }
     
-    function showBranchCars(branchName) {
+    function showBranchTree(branchName) {
         if (currentMode === 'all') {
             alert("В режиме просмотра ветки недоступны.");
             return;
@@ -1896,9 +1918,10 @@
         const overlay = document.createElement('div'); overlay.className = 'modal-overlay';
         currentBranchesOverlay = overlay;
         
-        let html = `<div class="modal-window"><div style="display:flex; gap:10px; margin-bottom:20px;"><button id="backBtn" style="background:#7f8c8d; border:none; padding:8px 20px; border-radius:30px; cursor:pointer;">◀ Назад</button><h2 style="margin:0;">🌿 ${branchName}</h2><button id="closeBtn" style="background:#c97e2a; border:none; padding:5px 15px; border-radius:30px; margin-left:auto; cursor:pointer;">✖</button></div><div class="branch-cars-grid">`;
+        let html = `<div class="modal-window"><div style="display:flex; gap:10px; margin-bottom:20px;"><button id="backBtn" style="background:#7f8c8d; border:none; padding:8px 20px; border-radius:30px; cursor:pointer;">◀ Назад</button><h2 style="margin:0;">🌿 ${branchName}</h2><button id="closeBtn" style="background:#c97e2a; border:none; padding:5px 15px; border-radius:30px; margin-left:auto; cursor:pointer;">✖</button></div><div class="branch-tree">`;
         
-        for (let modelId of branch.models) {
+        for (let i = 0; i < branch.order.length; i++) {
+            const modelId = branch.order[i];
             const commonCount = inventory[modelId].common;
             const goldCount = inventory[modelId].gold;
             const diamondCount = inventory[modelId].diamond;
@@ -1915,19 +1938,22 @@
             if (diamondCount > 0) rarityHtml += `<div class="upgrade-badge upgrade-diamond">💎 Алмазная: ${diamondCount}</div>`;
             rarityHtml += `</div>`;
             
-            html += `<div class="branch-car-card ${!hasAny ? 'locked' : ''} ${cardStyleClass}" data-model="${modelId}" data-name="${cardData.name}">
-                        <div class="branch-car-img">
-                            ${hasAny ? `<img src="${cardData.imgFile}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%233d2b1a%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23ddb582%22%3E🚗%3C/text%3E%3C/svg%3E';">` : '<div style="font-size:3rem;">🔒</div>'}
-                        </div>
-                        <div class="branch-car-info">
-                            <h3>${cardData.name}</h3>
-                            <div class="brand-tag" style="margin:5px 0;">🏭 ${cardData.brand}</div>
-                            <p style="font-size:0.8rem; margin:5px 0;">${cardData.years} | ${cardData.class} | ${cardData.type}</p>
-                            ${hasAny ? rarityHtml : '<p style="color:#999; margin-top:8px;">??? Карта не получена</p>'}
-                            <div style="font-size:0.7rem; color:#7f8c8d; margin-top:8px;">
-                                🖱️ ЛКМ - крафт | ПКМ - информация
+            html += `<div class="tree-node">
+                        <div class="tree-node-content ${!hasAny ? 'locked' : ''} ${cardStyleClass}" data-model="${modelId}" data-name="${cardData.name}">
+                            <div class="branch-car-img">
+                                ${hasAny ? `<img src="${cardData.imgFile}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%233d2b1a%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22%23ddb582%22%3E🚗%3C/text%3E%3C/svg%3E';">` : '<div style="font-size:3rem;">🔒</div>'}
+                            </div>
+                            <div class="branch-car-info">
+                                <h3>${cardData.name}</h3>
+                                <div class="brand-tag" style="margin:5px 0;">🏭 ${cardData.brand}</div>
+                                <p style="font-size:0.8rem; margin:5px 0;">${cardData.years} | ${cardData.class} | ${cardData.type}</p>
+                                ${hasAny ? rarityHtml : '<p style="color:#999; margin-top:8px;">??? Карта не получена</p>'}
+                                <div style="font-size:0.7rem; color:#7f8c8d; margin-top:8px;">
+                                    🖱️ ЛКМ - крафт | ПКМ - информация
+                                </div>
                             </div>
                         </div>
+                        ${i < branch.order.length - 1 ? '<div class="tree-connector"></div>' : ''}
                     </div>`;
         }
         
@@ -1935,15 +1961,15 @@
         overlay.innerHTML = html;
         document.body.appendChild(overlay);
         
-        const carCards = overlay.querySelectorAll('.branch-car-card');
-        carCards.forEach(card => {
-            const modelId = card.dataset.model;
-            const carName = card.dataset.name;
+        const treeNodes = overlay.querySelectorAll('.tree-node-content');
+        treeNodes.forEach(node => {
+            const modelId = node.dataset.model;
+            const carName = node.dataset.name;
             if (!modelId) return;
             
             const hasAny = inventory[modelId].common > 0 || inventory[modelId].gold > 0 || inventory[modelId].diamond > 0;
             
-            card.addEventListener('click', (e) => {
+            node.addEventListener('click', (e) => {
                 e.stopPropagation();
                 if (hasAny) {
                     showCraftModal(modelId, () => refreshBranchesColors());
@@ -1952,7 +1978,7 @@
                 }
             });
             
-            card.addEventListener('contextmenu', (e) => {
+            node.addEventListener('contextmenu', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 if (hasAny) {
@@ -2062,7 +2088,7 @@
                             playerMoney: 500,
                             infiniteMoney: false,
                             testMode: false,
-                            achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false },
+                            achievements: { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false },
                             inventory: emptyInventory
                         };
                         saveAllSlots();
@@ -2087,7 +2113,7 @@
             playerMoney = slots[selectedSlot].playerMoney;
             infiniteMoney = slots[selectedSlot].infiniteMoney;
             isTestMode = slots[selectedSlot].testMode || false;
-            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false };
+            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false };
             inventory = JSON.parse(JSON.stringify(slots[selectedSlot].inventory));
             startGame('collection');
         };
@@ -2098,7 +2124,7 @@
             playerMoney = slots[selectedSlot].playerMoney;
             infiniteMoney = true;
             isTestMode = false;
-            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false };
+            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false };
             inventory = JSON.parse(JSON.stringify(slots[selectedSlot].inventory));
             startGame('infinite');
         };
@@ -2109,7 +2135,7 @@
             playerMoney = slots[selectedSlot].playerMoney;
             infiniteMoney = false;
             isTestMode = true;
-            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branch110: false, branchKalina: false };
+            achievements = slots[selectedSlot].achievements || { firstCar: false, allAvtovaz: false, goldCar: false, diamondCar: false, firstRare: false, goldAvtovaz: false, diamondAvtovaz: false, branchClassic: false, branchSamara: false, branchKalina: false, branchPriora: false };
             inventory = JSON.parse(JSON.stringify(slots[selectedSlot].inventory));
             startGame('test');
         };
